@@ -7,4 +7,16 @@ const app = express();
 
 app.listen(process.env.PORT, () => console.log('Server started'));
 
-return console.log('HOLA JUIJUI')
+mongoose.set('useFindAndModify', false);
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
+
+mongoose.connect(process.env.DB, (err) => {
+    if(err){
+        return console.log('Error al conectar con la base de datos => ', err)
+    }
+    return console.log('conectado a la base de datos')
+});
+
+console.log('HOLA JUIJUI')
