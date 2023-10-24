@@ -5,6 +5,10 @@ require('dotenv').config();
 
 const app = express();
 
+// Importa las rutas
+const routes = require('./routes/route');
+app.use('/api', routes);
+
 app.listen(process.env.PORT, () => console.log('Server started'));
 
 mongoose.set('useFindAndModify', false);
@@ -18,5 +22,8 @@ mongoose.connect(process.env.DB, (err) => {
     }
     return console.log('conectado a la base de datos')
 });
+
+
+
 
 console.log('HOLA JUIJUI')
