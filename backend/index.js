@@ -7,6 +7,11 @@ const app = express();
 
 // Importa las rutas
 const routes = require('./routes/route');
+
+app.use(cors());
+app.use(express.json());
+app.options('*', cors());
+
 app.use('/api', routes);
 
 app.listen(process.env.PORT, () => console.log('Server started'));
