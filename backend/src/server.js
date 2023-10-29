@@ -19,7 +19,7 @@ app.use(json());
 
 //enviar correo
 //enviarCorreo();
-console.log("correo enviado actualizado");
+//console.log("correo enviado actualizado");
 
 //rutas
 app.use("/api/agenda", agendaRoutes);
