@@ -9,5 +9,7 @@ router.post("/", usuarioController.crearUsuario);
 router.get("/:id", usuarioController.buscarUsuarioPorID);
 router.put("/:id", usuarioController.actualizarUsuarioPorID);
 router.delete("/:id", usuarioController.eliminarUsuarioPorID);
+router.post("/buscarsolicitud", usuarioController.obtenerSolicitud);
+router.post("/modificar", usuarioController.ModificarRol);
 
 export default router;

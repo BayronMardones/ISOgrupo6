@@ -8,6 +8,7 @@ const agendaSchema = new Schema(
 		aprobada: Boolean,
 		feedback: String,
 		adjuntos: [String],
+		fecha: Date,
 	},
 	{
 		timestamps: true,
