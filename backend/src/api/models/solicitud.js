@@ -7,6 +7,7 @@ const solicitudSchema = new Schema(
 		detalles: String,
 		estado: String,
 		archivosAdjuntos: [String],
+		rutSolicitante:{ type: String, ref: "Usuario" },
 	},
 	{
 		timestamps: true,

@@ -23,13 +23,14 @@ const listarSolicitudes = async (req, res) => {
 // Función para crear una nueva solicitud
 const crearSolicitud = async (req, res) => {
 	try {
-		const { solicitante, detalles, estado, archivosAdjuntos } = req.body;
+		const { solicitante, detalles, estado, archivosAdjuntos, rutSolicitante } = req.body;
 
 		const nuevaSolicitud = new Solicitud({
 			solicitante,
 			detalles,
 			estado,
 			archivosAdjuntos,
+			rutSolicitante,
 		});
 
 		const solicitudGuardada = await nuevaSolicitud.save();
