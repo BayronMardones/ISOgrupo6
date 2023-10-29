@@ -1,5 +1,5 @@
 import express, { json } from "express";
-
+import enviarCorreo from './api/controllers/mailerController.js';
 //importar variables de entorno
 
 import { setupDB } from "./config/db.config.js";
@@ -16,6 +16,10 @@ const port = 3000;
 
 //middleware
 app.use(json());
+
+//enviar correo
+//enviarCorreo();
+console.log("correo enviado actualizado");
 
 //rutas
 app.use("/api/agenda", agendaRoutes);
