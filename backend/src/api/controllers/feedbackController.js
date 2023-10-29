@@ -2,7 +2,7 @@ import Solicitud from "../models/solicitud.js"; // Importa el modelo de solicitu
 
 // Controlador para crear un nuevo feedback en una solicitud
 const createFeedback = async (req, res) => {
-	const solicitudId = req.params.solicitudId;
+	const solicitudId = req.params.solicitud;
 	const { comentarios, observaciones, archivosAdjuntos } = req.body;
 
 	try {
@@ -32,11 +32,13 @@ const createFeedback = async (req, res) => {
 
 // Controlador para obtener el feedback de una solicitud
 const getFeedback = async (req, res) => {
-	const solicitudId = req.params.solicitudId;
+	const solicitudId = req.params.solicitud;
+	console.log(solicitudId);
 
 	try {
 		// Encuentra la solicitud por su ID
 		const solicitud = await Solicitud.findById(solicitudId);
+		console.log(solicitud.feedback);
 
 		if (!solicitud) {
 			return res.status(404).json({ message: "Solicitud no encontrada" });
@@ -52,7 +54,7 @@ const getFeedback = async (req, res) => {
 
 // Controlador para actualizar el feedback de una solicitud
 const updateFeedback = async (req, res) => {
-	const solicitudId = req.params.solicitudId;
+	const solicitudId = req.params.solicitud;
 	const feedbackId = req.params.feedbackId;
 	const { comentarios, observaciones, archivosAdjuntos } = req.body;
 
@@ -86,12 +88,11 @@ const updateFeedback = async (req, res) => {
 	}
 };
 
-// Función para eliminar un feedback específico en una solicitud
 // Función para eliminar un objeto de feedback en una solicitud
 export const deleteFeedback = async (req, res) => {
 	try {
 
-		const solicitudId = req.params.solicitudId;
+		const solicitudId = req.params.solicitud;
 		const feedbackId = req.params.feedbackId;
 		// Encuentra la solicitud por su ID
 		const solicitud = await Solicitud.findById(solicitudId);
