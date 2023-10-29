@@ -25,10 +25,12 @@ const crearUsuario = async (req, res) => {
 	try {
 		// Busca en la base de datos si existe algun usuario con el mismo rut
 		const usuarioExistente = await Usuario.findOne({ rut: req.body.rut });
-    // Si existe un usuario con el mismo rut, devolver un error
-    if (usuarioExistente) {
-    	return res.status(409).json({ message: "Ya existe un usuario con el mismo rut" });
-    }
+		// Si existe un usuario con el mismo rut, devolver un error
+		if (usuarioExistente) {
+			return res
+				.status(409)
+				.json({ message: "Ya existe un usuario con el mismo rut" });
+		}
 		const nuevoUsuario = new Usuario(req.body);
 		const usuario = await nuevoUsuario.save();
 		res.status(201).json(usuario);
@@ -95,10 +97,7 @@ const eliminarUsuarioPorID = async (req, res) => {
 	}
 };
 
-
-
-
-// Función para obtener una solicitud
+// Función para obtener una solicitud por el rut del solicitante
 const obtenerSolicitud = async (req, res) => {
 	try {
 		// Obtener el rut del usuario
@@ -106,7 +105,7 @@ const obtenerSolicitud = async (req, res) => {
 		console.log(rut);
 		// Buscar la solicitud en la base de datos
 		const solicitud = await Solicitud.find({ rutSolicitante: rut });
-		
+
 		// Si la solicitud no existe, devolver un error
 		if (!solicitud) {
 			return res.status(404).json({ message: "Solicitud no encontrada" });
@@ -116,7 +115,9 @@ const obtenerSolicitud = async (req, res) => {
 		res.status(200).json(solicitud);
 	} catch (error) {
 		// Devolver un error
-		res.status(500).json({ message: "Error al obtener la solicitud", error: error });
+		res
+			.status(500)
+			.json({ message: "Error al obtener la solicitud", error: error });
 	}
 };
 
@@ -125,31 +126,27 @@ const obtenerSolicitud = async (req, res) => {
 const ModificarRol = async (req, res) => {
 	const rut = req.body.rut;
 	const rol = req.body.rol;
-  
+
 	// Buscar el usuario en la base de datos
 	const user = await Usuario.findOne({ rut });
-	
+
 	// Si el usuario no existe, devolver un error
 	if (!user) {
-	  return res.status(404).send("Usuario no encontrado");
+		return res.status(404).send("Usuario no encontrado");
 	}
-  
+
 	// Modificar el rol del usuario
 	const update = await Usuario.findOneAndUpdate({ rut: rut }, { rol: rol });
 	// Espera a que se guarde el update para continuar
-	
+
 	// Si el documento actualizado no tiene el rol modificado, devolver un error
 	if (update.rol == rol) {
-	  return res.status(400).send("Error al modificar el rol del usuario");
+		return res.status(400).send("Error al modificar el rol del usuario");
 	}
-  
+
 	// Devolver una respuesta exitosa
 	res.send("Usuario modificado exitosamente");
-  };
-
-
-
-
+};
 
 export default {
 	listarUsuarios,
@@ -160,4 +157,3 @@ export default {
 	obtenerSolicitud,
 	ModificarRol,
 };
-	   

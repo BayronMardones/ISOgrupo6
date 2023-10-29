@@ -11,6 +11,9 @@ import usuarioRoutes from "./api/routes/usuarioRoutes.js";
 import loginRoutes from "./api/routes/loginRoutes.js";
 import feedbackRoutes from "./api/routes/feedbackRoutes.js";
 
+//middleware
+import checkUserRole from "./api/middleware/autorizacion.js";
+
 
 const app = express();
 const port = 3000;
@@ -18,12 +21,12 @@ const port = 3000;
 //middleware
 app.use(json());
 
-//rutas
-app.use("/api/agenda", agendaRoutes);
-app.use("/api/solicitud", solicitudRoutes);
-app.use("/api/usuario", usuarioRoutes);
-app.use("/api/login", loginRoutes);
-app.use("/api/feedback", feedbackRoutes);
+//middleware para verificar roles admin, encargado, oficinista, vecino en las rutas
+app.use("/api/agenda", checkUserRole(["admin", "encargado", "oficinista"]), agendaRoutes);
+app.use("/api/solicitud", checkUserRole(["admin", "encargado", "oficinista", "solicitante"]), solicitudRoutes);
+app.use("/api/usuario", checkUserRole(["admin", "encargado", "oficinista"]), usuarioRoutes);
+app.use("/api/login" , loginRoutes);
+app.use("/api/feedback", checkUserRole(["admin", "encargado"]), feedbackRoutes);
 
 
 app.get("/", (req, res) => {
