@@ -1,12 +1,14 @@
 import { Router } from "express";
 import feedbackController from "../controllers/feedbackController.js";
+import checkUserRole from "../middleware/autorizacion.js";
 
 const router = Router();
 
-// Define tus rutas y asigna las funciones del controlador a cada ruta
-router.post('/:solicitudId', feedbackController.createFeedback);
-router.get('/:solicitudId', feedbackController.getFeedback);
-router.put('/:solicitudId/:feedbackId', feedbackController.updateFeedback);
-router.delete('/:solicitudId/:feedbackId', feedbackController.deleteFeedback);
+// Rutas para el oficinista 
+router.get('/:solicitud', checkUserRole(['encargado']), feedbackController.getFeedback);
+router.post('/:solicitud', checkUserRole(['encargado']), feedbackController.createFeedback);
+router.put('/:solicitud/:feedbackId', checkUserRole(['encargado']), feedbackController.updateFeedback);
+router.delete('/:solicitud/:feedbackId', checkUserRole(['encargado']), feedbackController.deleteFeedback);
+
 
 export default router;

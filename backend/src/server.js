@@ -16,7 +16,7 @@ import checkUserRole from "./api/middleware/autorizacion.js";
 
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 //middleware
 app.use(json());
@@ -30,7 +30,7 @@ app.use("/api/feedback", checkUserRole(["admin", "encargado"]), feedbackRoutes);
 
 
 app.get("/", (req, res) => {
-	res.send("Hola Mundo!!");
+	res.send("Pagina en contruccion");
 });
 
 app.listen(port, () => {
