@@ -87,12 +87,37 @@ const updateFeedback = async (req, res) => {
 };
 
 // Función para eliminar un feedback específico en una solicitud
+// Función para eliminar un objeto de feedback en una solicitud
+export const deleteFeedback = async (req, res) => {
+	try {
 
+		const solicitudId = req.params.solicitudId;
+		const feedbackId = req.params.feedbackId;
+		// Encuentra la solicitud por su ID
+		const solicitud = await Solicitud.findById(solicitudId);
+
+		if (!solicitud) {
+			throw new Error("Solicitud no encontrada");
+		}
+
+		// Filtra la matriz de feedback para eliminar el objeto específico
+		solicitud.feedback = solicitud.feedback.filter(
+			(feedback) => feedback._id != feedbackId
+		);
+
+		// Guarda la solicitud actualizada
+		await solicitud.save();
+
+		return res.status(200).json({ message: "Feedback eliminado exitosamente" });
+	} catch (error) {
+		throw new Error(`Error al eliminar el feedback: ${error.message}`);
+	}
+};
 
 // Exporta los controladores
 export default {
 	createFeedback,
 	getFeedback,
 	updateFeedback,
-	//deleteFeedback,
+	deleteFeedback,
 };

@@ -7,6 +7,6 @@ const router = Router();
 router.post('/:solicitudId', feedbackController.createFeedback);
 router.get('/:solicitudId', feedbackController.getFeedback);
 router.put('/:solicitudId/:feedbackId', feedbackController.updateFeedback);
-//router.delete('/:solicitudId/:feedbackId', feedbackController.deleteFeedback);
+router.delete('/:solicitudId/:feedbackId', feedbackController.deleteFeedback);
 
 export default router;
