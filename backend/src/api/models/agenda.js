@@ -7,7 +7,8 @@ const año = fecha.getFullYear().toString().slice(-2); // Tomar los últimos dos
 const horas = fecha.getHours().toString().padStart(2, '0'); // Asegurarse de que siempre tenga 2 dígitos
 const minutos = fecha.getMinutes().toString().padStart(2, '0'); // Asegurarse de que siempre tenga 2 dígitos
 
-const fechaFormateada = `${dia}/${mes}/${año} ${horas}:${minutos}`; 
+const fechaFormateada = `${dia}/${mes}/${año}`; 
+const horaFormateada = `${horas}:${minutos}`;
 // Formato: DD/MM/AA HH:MM
 
 // Define un esquema para la agenda
@@ -18,7 +19,8 @@ const agendaSchema = new Schema(
 		aprobada: Boolean,
 		feedback: String,
 		adjuntos: [String],
-		fecha: { type: String, default: fechaFormateada }
+		fecha: { type: String, default: fechaFormateada },
+		hora: { type: String, default: horaFormateada }
 	},
 	{
 		timestamps: true,
