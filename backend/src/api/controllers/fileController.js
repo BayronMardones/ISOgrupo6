@@ -20,8 +20,8 @@ const uploadfile = async (req, res) => {
   return res.status(201).send(newFiles)
 }
 
+
 const getFiles = (req, res) => {
-  console.log("req.query", req.query.elvis)
   fileModel.find({}, (err, file) => {
       if (err) {
           return res.status(400).send({ message: "Error al obtener los archivos" })
@@ -40,7 +40,6 @@ const getSpecificFile = (req, res) => {
           return res.status(404).send({ message: "Archivo no existe" })
       }
       return res.download('./' + file.url)
-
   })
 }
 
