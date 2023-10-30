@@ -6,14 +6,14 @@ const solicitudSchema = new Schema(
 		detalles: String,
 		estado: {type: String, enum: ["aprobado", "rechazado", "pendiente"], default: "pendiente"},
 		archivosAdjuntos: [String],
-		feedback: [
+        feedback: [
 			{
-				comentarios: String,
-				observaciones: String,
-				archivosAdjuntos: [String],
-			},
-		],
-	},
+                comentarios: String,
+                observaciones: String,
+                archivosAdjuntosFeedback: [String],
+            },
+        ],
+    },
 	{
 		timestamps: true,
 		versionKey: false,

@@ -13,8 +13,8 @@ const fileSchema = new Schema({
     requiere: true,
   },
   idSolicitud: {
-    type: String,
-    requiere: true,
+     type: String,
+     requiere: true,
   },
 });
 

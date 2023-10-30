@@ -2,20 +2,9 @@
 import Solicitud from "../models/solicitud.js";
 import multer from "multer";
 import fs from "fs";
-import enviarCorreo from "./mailerController.js";
-import Usuario from "../models/usuario.js";
+import File from "../models/file.js";
 
-// Configurar Multer para almacenar archivos en una ubicación temporal
-const storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, "./temp");
-	},
-	filename: function (req, file, cb) {
-		cb(null, file.originalname);
-	},
-});
-
-const upload = multer({ storage: storage });
+//const upload = multer({ storage: storage });
 
 // Listar todas las solicitudes
 const listarSolicitudes = async (req, res) => {
@@ -48,34 +37,48 @@ const listarSolicitudes = async (req, res) => {
 };
 
 // Función para crear una nueva solicitud
-const crearSolicitud = upload.array("archivosAdjuntos", 1, async (req, res) => {
-	try {
-    
-	  // Obtén los nombres de los archivos cargados
-	  const archivosAdjuntos = req.files.map(file => file.filename);
-  
-	  // Leer archivos adjuntos y almacenarlos como objetos binarios
-	  const archivosAdjuntosBinarios = await Promise.all(
-		archivosAdjuntos.map(file => fs.readFileSync(file.path))
-	  );
-    console.log("entrando en creacion de solicitud");
-	  // Crear una nueva solicitud
-	  const nuevaSolicitud = new Solicitud({
-		  archivosAdjuntos: archivosAdjuntosBinarios,
-	  });
-  
-	  // Guardar la solicitud en la base de datos
-	  const solicitudGuardada = await nuevaSolicitud.save();
-  
-	  res.status(201).json(solicitudGuardada);
-	} catch (err) {
-		console.error("Error al crear una solicitud:", err);
-		res
-			.status(500)
-			.json({ message: "Error al crear una solicitud", error: err.message });
-	}
-});
+// Función para crear una nueva solicitud
+const crearSolicitud = async (req, res) => {
+  try {
+    const { archivosAdjuntos } = req.body;
+    // Recupera los IDs de los archivos desde el cuerpo de la solicitud
+    const archivosAdjuntosId = req.body.archivosAdjuntos;
 
+    console.log("archivosAdjuntosId:", archivosAdjuntosId);
+
+    if (!archivosAdjuntos || !Array.isArray(archivosAdjuntos)) {
+      return res.status(400).json({ message: "La propiedad 'archivosAdjuntos' no es un array válido." });
+    }
+
+    // Verifica que los archivos existan en la base de datos antes de asociarlos a la solicitud
+    const archivosExistentes = await File.find({ _id: { $in: archivosAdjuntos } });
+
+    if (archivosAdjuntos.length !== archivosExistentes.length) {
+      return res.status(400).json({ message: "Algunos archivos adjuntos no existen." });
+    }
+
+    // Crea una nueva solicitud con los IDs de archivos asociados
+    const nuevaSolicitud = new Solicitud({
+      solicitante: req.body.solicitante,
+      fecha: req.body.fecha,
+      tipo: req.body.tipo,
+      estado: req.body.estado,
+      archivosAdjuntos: archivosAdjuntos, // Utiliza el array de IDs directamente
+      feedback: req.body.feedback,
+    });
+
+    // Guarda la solicitud en la base de datos
+    const solicitudGuardada = await nuevaSolicitud.save();
+
+    res.status(201).json(solicitudGuardada);
+  } catch (err) {
+    console.error("Error al crear una solicitud:", err);
+    res.status(500).json({ message: "Error al crear una solicitud", error: err.message });
+  }
+};
+
+  
+  
 // Función para actualizar una solicitud por su ID
 const actualizarSolicitudPorId = async (req, res) => {
   try {
