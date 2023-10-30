@@ -47,21 +47,6 @@ const listarSolicitudes = async (req, res) => {
 // Función para crear una nueva solicitud
 const crearSolicitud = upload.array('archivosAdjuntos', 1, async (req, res) => {
 	try {
-<<<<<<< HEAD
-		const { solicitante, detalles, estado, archivosAdjuntos, rutSolicitante } = req.body;
-
-		const nuevaSolicitud = new Solicitud({
-			solicitante,
-			detalles,
-			estado,
-			archivosAdjuntos,
-			rutSolicitante,
-		});
-
-		const solicitudGuardada = await nuevaSolicitud.save();
-
-		res.status(201).json(solicitudGuardada);
-=======
 	  //  const { solicitante, detalles, estado } = req.body;
   
 	  // Obtén los nombres de los archivos cargados
@@ -84,7 +69,6 @@ const crearSolicitud = upload.array('archivosAdjuntos', 1, async (req, res) => {
 	  const solicitudGuardada = await nuevaSolicitud.save();
   
 	  res.status(201).json(solicitudGuardada);
->>>>>>> Seven
 	} catch (err) {
 	  console.error("Error al crear una solicitud:", err);
 	  res
