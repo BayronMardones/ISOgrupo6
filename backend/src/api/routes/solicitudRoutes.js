@@ -4,10 +4,10 @@ import solicitudController from "../controllers/solicitudController.js";
 
 const router = Router();
 
-router.get("/", solicitudController.listarSolicitudes);
-router.post("/", solicitudController.crearSolicitud);
-router.get("/:id", solicitudController.buscarSolicitudPorId);
-router.put("/:id", solicitudController.actualizarSolicitudPorId);
-router.delete("/:id", solicitudController.eliminarSolicitudPorId);
+router.get("/listar", solicitudController.listarSolicitudes);
+router.post("/crearA", solicitudController.crearSolicitud);
+router.get("/buscar/:id", solicitudController.buscarSolicitudPorId);
+router.put("/actualizar/:id", solicitudController.actualizarSolicitudPorId);
+router.delete("/eliminar/:id", solicitudController.eliminarSolicitudPorId);
 
 export default router;

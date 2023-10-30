@@ -13,7 +13,7 @@ import feedbackRoutes from "./api/routes/feedbackRoutes.js";
 
 //middleware
 import checkUserRole from "./api/middleware/autorizacion.js";
-
+import filesRoutes from "./api/routes/fileRoutes.js";
 
 const app = express();
 const port = process.env.PORT;
@@ -27,6 +27,7 @@ app.use("/api/solicitud", checkUserRole(["admin", "encargado", "oficinista", "so
 app.use("/api/usuario", checkUserRole(["admin", "encargado", "oficinista"]), usuarioRoutes);
 app.use("/api/login" , loginRoutes);
 app.use("/api/feedback", checkUserRole(["admin", "encargado"]), feedbackRoutes);
+app.use("/api/", filesRoutes);
 
 
 app.get("/", (req, res) => {
