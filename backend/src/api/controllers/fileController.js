@@ -94,7 +94,6 @@ const deleteFilesS = async (req, res) => {
 
 export default {
   uploadfile,
-  uploadFeedbackImage,
   getFiles,
   getSpecificFile,
   deleteFiles,
