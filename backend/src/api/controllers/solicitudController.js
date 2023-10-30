@@ -46,6 +46,7 @@ const listarSolicitudes = async (req, res) => {
 // Función para crear una nueva solicitud
 const crearSolicitud = upload.array('archivosAdjuntos', 1, async (req, res) => {
 	try {
+    
 	  // Obtén los nombres de los archivos cargados
 	  const archivosAdjuntos = req.files.map(file => file.filename);
   
@@ -53,7 +54,7 @@ const crearSolicitud = upload.array('archivosAdjuntos', 1, async (req, res) => {
 	  const archivosAdjuntosBinarios = await Promise.all(
 		archivosAdjuntos.map(file => fs.readFileSync(file.path))
 	  );
-  
+    console.log("entrando en creacion de solicitud");
 	  // Crear una nueva solicitud
 	  const nuevaSolicitud = new Solicitud({
 		  archivosAdjuntos: archivosAdjuntosBinarios,

@@ -22,7 +22,7 @@ app.use(json());
 
 //middleware para verificar roles admin, encargado, oficinista, vecino en las rutas
 app.use("/api/agenda", checkUserRole(["admin", "encargado", "oficinista"]), agendaRoutes);
-app.use("/api/solicitud", checkUserRole(["admin", "encargado", "oficinista", "solicitante"]), solicitudRoutes);
+app.use("/api/solicitud", solicitudRoutes);
 app.use("/api/usuario", checkUserRole(["admin", "encargado", "oficinista"]), usuarioRoutes);
 app.use("/api/login" , loginRoutes);
 app.use("/api/feedback", checkUserRole(["admin", "encargado"]), feedbackRoutes);
