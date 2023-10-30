@@ -142,10 +142,39 @@ const eliminarSolicitudPorId = async (req, res) => {
   }
 };
 
+// funcion para aprobar una solicitud por su ID
+const modificarEstadoPorId = async (req, res) => {
+  try {
+    const solicitudId = req.params.id;
+    const estadoActual = req.body.estado;
+
+    const solicitudEncontrada = await Solicitud.findById(solicitudId);
+
+    if (!solicitudEncontrada) {
+      return res.status(404).json({ message: "Solicitud no encontrada" });
+    }
+
+    solicitudEncontrada.estado = estadoActual;
+
+    const solicitudActualizada = await solicitudEncontrada.save();
+
+    res.status(200).json(solicitudActualizada);
+  } catch (err) {
+    console.error("Error al actualizar el estado de la solicitud: ", err);
+    res
+      .status(500)
+      .json({
+        message: "Error al actualizar el estado de la solicitud: ",
+        error: err.message,
+      });
+  }
+};
+
 export default {
   listarSolicitudes,
   crearSolicitud,
   buscarSolicitudPorId,
   actualizarSolicitudPorId,
   eliminarSolicitudPorId,
+  modificarEstadoPorId
 };
