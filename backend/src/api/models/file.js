@@ -12,10 +12,10 @@ const fileSchema = new Schema({
     type: String,
     requiere: true,
   },
-  // idSolicitud: {
-  //   type: String,
-  //   requiere: true,
-  // },
+  idSolicitud: {
+     type: String,
+     requiere: true,
+  },
 });
 
 export default model("file", fileSchema);

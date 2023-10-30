@@ -6,14 +6,15 @@ import fs from "fs";
 
 const uploadfile = async (req, res) => {
   const { files } = req;
-  const solicitudId = req.body.solicitudId;
+  const {id} = req.params;
 
   const newFiles = await Promise.all(files.map(async (file) => {
     const newFile = new fileUpload({
       url: file.path,
       name: file.originalname,
       mimeType: file.mimetype,
-      solicitud: solicitudId,
+      idSolicitud: id,
+
     })
     await newFile.save()
     return newFile

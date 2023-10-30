@@ -4,10 +4,18 @@ import { Schema, model } from "mongoose";
 const solicitudSchema = new Schema(
 	{
 		solicitante: { type: Schema.Types.ObjectId, ref: "Usuario" }, // Referencia al usuario solicitante
-		detalles: String,
+		detalles: String, //direccion
 		estado: String,
+		estado: {type: String, enum: ["activo", "inactivo", "pendiente"], default: "pendiente"},
 		archivosAdjuntos: [String],
-	},
+        feedback: [
+			{
+                comentarios: String,
+                observaciones: String,
+                archivosAdjuntosFeedback: [String],
+            },
+        ],
+    },
 	{
 		timestamps: true,
 		versionKey: false,
