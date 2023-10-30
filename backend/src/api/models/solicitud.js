@@ -7,13 +7,6 @@ const solicitudSchema = new Schema(
 		detalles: String,
 		estado: String,
 		archivosAdjuntos: [String],
-		feedback: [
-			{
-				comentarios: String,
-				observaciones: String,
-				archivosAdjuntos: [String],
-			},
-		],
 	},
 	{
 		timestamps: true,

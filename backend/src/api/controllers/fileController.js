@@ -5,12 +5,15 @@ import fs from "fs";
 
 
 const uploadfile = async (req, res) => {
-  const { files } = req
+  const { files } = req;
+  const solicitudId = req.body.solicitudId;
+
   const newFiles = await Promise.all(files.map(async (file) => {
     const newFile = new fileUpload({
       url: file.path,
       name: file.originalname,
-      mimeType: file.mimetype
+      mimeType: file.mimetype,
+      solicitud: solicitudId,
     })
     await newFile.save()
     return newFile
@@ -21,82 +24,57 @@ const uploadfile = async (req, res) => {
 const getFiles = (req, res) => {
   console.log("req.query", req.query.elvis)
   fileModel.find({}, (err, file) => {
-      if (err) {
-          return res.status(400).send({ message: "Error al obtener los archivos" })
-      }
-      return res.status(200).send(file)
+    if (err) {
+      return res.status(400).send({ message: "Error al obtener los archivos" })
+    }
+    return res.status(200).send(file)
   })
 }
 
 const getSpecificFile = (req, res) => {
   const { id } = req.params
   fileModel.findById(id, (err, file) => {
-      if (err) {
-          return res.status(400).send({ message: "Error al obtener el archivo" })
-      }
-      if (!file) {
-          return res.status(404).send({ message: "Archivo no existe" })
-      }
-      return res.download('./' + file.url)
+    if (err) {
+      return res.status(400).send({ message: "Error al obtener el archivo" })
+    }
+    if (!file) {
+      return res.status(404).send({ message: "Archivo no existe" })
+    }
+    return res.download('./' + file.url)
 
   })
 }
 
+const deleteFile = async (req, res) => {
+  const { id } = req.params;
 
-const deleteFiles = async (req, res) => {
-  const { idSolicitud } = req.params
-  fileUpload.findOne({idSolicitud}, (error, file) => {
-    if (error) {
-      return res.status(400).send({ message: "Error al obtener los archivos" });
-    }
-    if (!file) {
-      return res.status(404).send({ message: "Archivo no encontrado 1." })
-    }
-    fileUpload.findByIdAndDelete(file._id, (error, fmas) => {
-      if (error) {
-        return res.status(400).send({ message: "Error." })
-      }
-      if (!fmas) {
-        return res.status(404).send({ message: "Archivo no encontrado." })
-      }
-      fs.unlink(fmas.url, (error) => {
-        if(error){
-          return res.status(404).send({ message: "Error." })
-        }
-        if(!fmas){
-          return res.status(404).send({ message: "Error" })
-        }
-        return res.status(200).send({ message: "Archivo Eliminado"})
-      })
-    });
-  });
-}
+  // Buscar el archivo por ID.
+  const file = await fileUpload.findById(id);
 
-const deleteFilesS = async (req, res) => {
-  const { id } = req.params
-  fileUpload.findByIdAndDelete(id, (error, file) => {
+  // Si el archivo no existe, devolver una respuesta de error.
+  if (!file) {
+    return res.status(404).send({ message: "Archivo no encontrado." });
+  }
+
+  console.log(file);
+
+  // Eliminar el archivo.
+  await fileUpload.findByIdAndRemove(id);
+
+  // Eliminar el archivo del sistema de archivos.
+  fs.unlink(file.url, (error) => {
     if (error) {
-      return res.status(400).send({ message: "Error." })
+      // Registrar el error, pero no devolver una respuesta de falla.
+      console.log(error);
     }
-    if (!file) {
-      return res.status(404).send({ message: "Archivo no encontrado." })
-    }
-    fs.unlink(file.url, (error) => {
-      if(error){
-        return res.status(404).send({ message: "Error." })
-      }
-      if(!file){
-        return res.status(404).send({ message: "Error" })
-      }
-      return res.status(200).send({ message: "Archivo Eliminado"})
-    })
   });
-}
+  // Enviar una respuesta de éxito.
+  return res.status(200).send({ message: "Archivo eliminado correctamente." });
+};
 
 export default {
   uploadfile,
   getFiles,
   getSpecificFile,
-  deleteFiles,
-  deleteFilesS
-};  
+  deleteFile,
+};
