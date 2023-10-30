@@ -2,6 +2,7 @@ import { application } from "express";
 import Solicitud from "../models/solicitud.js";
 import fileUpload from "../models/file.js";
 import fs from "fs";
+import solicitud from "../models/solicitud.js";
 
 
 const uploadfile = async (req, res) => {
@@ -10,7 +11,8 @@ const uploadfile = async (req, res) => {
     const newFile = new fileUpload({
       url: file.path,
       name: file.originalname,
-      mimeType: file.mimetype
+      mimeType: file.mimetype,
+      idSolicitud: req.params.id
     })
     await newFile.save()
     return newFile
