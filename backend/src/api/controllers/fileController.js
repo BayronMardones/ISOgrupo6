@@ -18,19 +18,6 @@ const uploadfile = async (req, res) => {
   return res.status(201).send(newFiles)
 }
 
-const uploadFeedbackImage = async (req, res) => {
-  const { files } = req
-  const newFiles = await Promise.all(files.map(async (file) => {
-    const newFile = new fileUpload({
-      url: file.path,
-      name: file.originalname,
-      mimeType: file.mimetype
-    })
-    await newFile.save()
-    return newFile
-  }))
-  return res.status(201).send(newFiles)
-}
 
 const getFiles = (req, res) => {
   fileModel.find({}, (err, file) => {
