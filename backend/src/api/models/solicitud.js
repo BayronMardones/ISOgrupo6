@@ -4,7 +4,7 @@ const solicitudSchema = new Schema(
 	{
 		solicitante: { type: Schema.Types.ObjectId, ref: "Usuario" }, // Referencia al usuario solicitante
 		detalles: String,
-		estado: {type: String, enum: ["activo", "inactivo", "pendiente"], default: "pendiente"},
+		estado: {type: String, enum: ["aprobado", "rechazado", "pendiente"], default: "pendiente"},
 		archivosAdjuntos: [String],
 		feedback: [
 			{
