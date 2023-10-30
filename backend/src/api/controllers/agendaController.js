@@ -1,5 +1,5 @@
 import Agenda from "../models/agenda.js";
-import enviarCorreo from './mailerController.js';
+import enviarCorreo from "./mailerController.js";
 
 // Función para listar todos los usuarios
 const listarEntradasAgenda = async (req, res) => {
@@ -13,29 +13,33 @@ const listarEntradasAgenda = async (req, res) => {
 		return res.status(200).send(agendas);
 	} catch (err) {
 		console.error("Error al listar las entradas de las agendas:", err);
-		return res
-			.status(500)
-			.json({
-				message: "Error al listar las entradas de las agendas:",
-				error: err.message,
-			});
+		return res.status(500).json({
+			message: "Error al listar las entradas de las agendas:",
+			error: err.message,
+		});
 	}
 };
 
 // Función para crear una nueva entrada en la agenda
 const crearEntradaAgenda = async (req, res) => {
 	try {
-		const { solicitud, encargadoVisita, estadoAgenda, feedback, adjuntos, fecha } =
-			req.body;
+		const {
+			solicitud,
+			encargadoVisita,
+			estadoAgenda,
+			feedback,
+			adjuntos,
+			fecha,
+		} = req.body;
 
-			 // Verifica si ya existe una entrada de agenda para la misma fecha
-			 const entradaExistente = await Agenda.findOne({ fecha });
+		// Verifica si ya existe una entrada de agenda para la misma fecha
+		const entradaExistente = await Agenda.findOne({ fecha });
 
-			 if (entradaExistente) {
-			   return res.status(400).json({
-				 message: "Ya existe una entrada de agenda para la misma fecha.",
-			   });
-			 }
+		if (entradaExistente) {
+			return res.status(400).json({
+				message: "Ya existe una entrada de agenda para la misma fecha.",
+			});
+		}
 
 		const nuevaEntradaAgenda = new Agenda({
 			solicitud,
@@ -57,7 +61,7 @@ const crearEntradaAgenda = async (req, res) => {
 		});
 	}
 };
-//estoy programando
+
 // Buscar una entrada en la agenda por ID
 const buscarEntradaAgendaPorId = async (req, res) => {
 	try {
@@ -83,8 +87,8 @@ const actualizarEntradaAgendaPorId = async (req, res) => {
 		const updatedData = req.body;
 		const entradaAntigua = await Agenda.findById(entradaId);
 
-    // Imprimir el valor antiguo de estadoAgenda
-    console.log('Valor antiguo de estadoAgenda:', entradaAntigua.estadoAgenda);
+		// Imprimir el valor antiguo de estadoAgenda
+		console.log("Valor antiguo de estadoAgenda:", entradaAntigua.estadoAgenda);
 
 		const entradaActualizada = await Agenda.findByIdAndUpdate(
 			entradaId,
@@ -93,27 +97,29 @@ const actualizarEntradaAgendaPorId = async (req, res) => {
 				new: true,
 			}
 		);
-			
+
 		if (!entradaActualizada) {
 			return res.status(404).json({ message: "Entrada no encontrada" });
 		}
-		console.log('Valor NUEVO de estadoAgenda:',entradaActualizada.estadoAgenda);
+		console.log(
+			"Valor NUEVO de estadoAgenda:",
+			entradaActualizada.estadoAgenda
+		);
 		// Verifica si estadoAgenda ha cambiado
-		  if (entradaActualizada.estadoAgenda !== entradaAntigua.estadoAgenda) {
-			console.log('Estado de aprobación modificado CORREO ENVIADO');
+		if (entradaActualizada.estadoAgenda !== entradaAntigua.estadoAgenda) {
+			console.log("Estado de aprobación modificado CORREO ENVIADO");
 			// Llama a enviarCorreo solo si estadoAprobacion ha cambiado
 			enviarCorreo(updatedData.estadoAgenda);
-		  }
+		}
 		return res.status(200).json(entradaActualizada);
-
-	}catch (err) {
+	} catch (err) {
 		console.error("Error al actualizar una entrada en la agenda:", err);
 		res.status(500).json({
 			message: "Error al actualizar una entrada en la agenda",
 			error: err.message,
 		});
-	}};
-
+	}
+};
 
 //	Eliminar una entrada en la agenda por ID
 const eliminarEntradaAgendaPorId = async (req, res) => {
