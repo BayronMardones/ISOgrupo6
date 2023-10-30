@@ -1,5 +1,5 @@
 import express, { json } from "express";
-
+import enviarCorreo from './api/controllers/mailerController.js';
 //importar variables de entorno
 
 import { setupDB } from "./config/db.config.js";
@@ -20,6 +20,10 @@ const port = process.env.PORT;
 
 //middleware
 app.use(json());
+
+//enviar correo
+//enviarCorreo();
+//console.log("correo enviado actualizado");
 
 //middleware para verificar roles admin, encargado, oficinista, vecino en las rutas
 app.use("/api/agenda", checkUserRole(["admin", "encargado", "oficinista"]), agendaRoutes);
