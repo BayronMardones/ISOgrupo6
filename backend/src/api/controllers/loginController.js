@@ -38,7 +38,8 @@ const iniciarSesion = async (req, res) => {
 };
 
 const cerrarSesion = async (req, res) => {
-
+// Obtener el token JWT del encabezado Authorization
+	const token = req.headers.authorization;
 	if (!token) {
 		return res.status(400).json({ message: "No hay token" });
 	}

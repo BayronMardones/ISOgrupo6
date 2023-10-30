@@ -85,7 +85,6 @@ const actualizarEntradaAgendaPorId = async (req, res) => {
 	try {
 		const entradaId = req.params.id;
 		const updatedData = req.body;
-		const entradaAntigua = await Agenda.findById(entradaId);
 
 		// Imprimir el valor antiguo de estadoAgenda
 		console.log("Valor antiguo de estadoAgenda:", entradaAntigua.estadoAgenda);
@@ -105,12 +104,7 @@ const actualizarEntradaAgendaPorId = async (req, res) => {
 			"Valor NUEVO de estadoAgenda:",
 			entradaActualizada.estadoAgenda
 		);
-		// Verifica si estadoAgenda ha cambiado
-		if (entradaActualizada.estadoAgenda !== entradaAntigua.estadoAgenda) {
-			console.log("Estado de aprobación modificado CORREO ENVIADO");
-			// Llama a enviarCorreo solo si estadoAprobacion ha cambiado
-			enviarCorreo(updatedData.estadoAgenda);
-		}
+		
 		return res.status(200).json(entradaActualizada);
 	} catch (err) {
 		console.error("Error al actualizar una entrada en la agenda:", err);

@@ -2,6 +2,8 @@
 import Solicitud from "../models/solicitud.js";
 import multer from "multer";
 import fs from "fs";
+import enviarCorreo from "./mailerController.js";
+import Usuario from "../models/usuario.js";
 
 // Configurar Multer para almacenar archivos en una ubicación temporal
 const storage = multer.diskStorage({
@@ -72,6 +74,7 @@ const actualizarSolicitudPorId = async (req, res) => {
   try {
     const solicitudId = req.params.id;
     const updatedData = req.body;
+    const entradaAntigua = await Solicitud.findById(solicitudId);
 
     const solicitudActualizada = await Solicitud.findByIdAndUpdate(
       solicitudId,
@@ -84,6 +87,15 @@ const actualizarSolicitudPorId = async (req, res) => {
     if (!solicitudActualizada) {
       return res.status(404).json({ message: "Solicitud no encontrada" });
     }
+
+    if (solicitudActualizada.estado !== entradaAntigua.estado) {
+			console.log("Estado de aprobación modificado CORREO ENVIADO");
+      const usuario = await Usuario.findById(solicitudActualizada.solicitante); 
+
+			// Llama a enviarCorreo solo si estadoAprobacion ha cambiado
+			enviarCorreo(solicitudActualizada.estado, usuario.email);
+		}
+
     return res.status(200).json(solicitudActualizada);
   } catch (err) {
     console.error("Error al actualizar una solicitud por ID:", err);
