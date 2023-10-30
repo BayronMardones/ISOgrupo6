@@ -1,6 +1,6 @@
 import { Router } from "express";
 import feedbackController from "../controllers/feedbackController.js";
-import checkUserRole from "../middleware/autorizacion.js";
+import checkUserRole from "../middlewares/autorizacion.js";
 
 const router = Router();
 

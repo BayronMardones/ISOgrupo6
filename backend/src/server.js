@@ -1,5 +1,4 @@
 import express, { json } from "express";
-import enviarCorreo from './api/controllers/mailerController.js';
 //importar variables de entorno
 
 import { setupDB } from "./config/db.config.js";
@@ -12,7 +11,7 @@ import loginRoutes from "./api/routes/loginRoutes.js";
 import feedbackRoutes from "./api/routes/feedbackRoutes.js";
 
 //middleware
-import checkUserRole from "./api/middleware/autorizacion.js";
+import checkUserRole from "./api/middlewares/autorizacion.js";
 import filesRoutes from "./api/routes/fileRoutes.js";
 
 const app = express();
@@ -20,10 +19,6 @@ const port = process.env.PORT;
 
 //middleware
 app.use(json());
-
-//enviar correo
-//enviarCorreo();
-//console.log("correo enviado actualizado");
 
 //middleware para verificar roles admin, encargado, oficinista, vecino en las rutas
 app.use("/api/agenda", checkUserRole(["admin", "encargado", "oficinista"]), agendaRoutes);

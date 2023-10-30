@@ -1,6 +1,5 @@
 //const fs = require('fs');
 import Solicitud from "../models/solicitud.js";
-//import Usuario from "../models/usuario.js";
 import multer from "multer";
 import fs from "fs";
 
@@ -38,17 +37,13 @@ const listarSolicitudes = async (req, res) => {
     }));
   } catch (err) {
     console.error("Error al listar las solicitudes:", err);
-    return res
-      .status(500)
-      .json({ message: "Error al listar las solicitudes", error: err.message });
+    return res.status(500).json({ message: "Error al listar las solicitudes", error: err.message });
   }
 };
 
 // Función para crear una nueva solicitud
 const crearSolicitud = upload.array('archivosAdjuntos', 1, async (req, res) => {
 	try {
-	  //  const { solicitante, detalles, estado } = req.body;
-  
 	  // Obtén los nombres de los archivos cargados
 	  const archivosAdjuntos = req.files.map(file => file.filename);
   
@@ -59,9 +54,6 @@ const crearSolicitud = upload.array('archivosAdjuntos', 1, async (req, res) => {
   
 	  // Crear una nueva solicitud
 	  const nuevaSolicitud = new Solicitud({
-		  //solicitante,
-		  //detalles,
-		  //estado,
 		  archivosAdjuntos: archivosAdjuntosBinarios,
 	  });
   
@@ -71,9 +63,7 @@ const crearSolicitud = upload.array('archivosAdjuntos', 1, async (req, res) => {
 	  res.status(201).json(solicitudGuardada);
 	} catch (err) {
 	  console.error("Error al crear una solicitud:", err);
-	  res
-		.status(500)
-		.json({ message: "Error al crear una solicitud", error: err.message });
+	  res.status(500).json({ message: "Error al crear una solicitud", error: err.message });
 	}
 });
   

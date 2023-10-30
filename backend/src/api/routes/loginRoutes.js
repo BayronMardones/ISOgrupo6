@@ -4,6 +4,6 @@ import loginController from "../controllers/loginController.js";
 
 const router = Router();
 
-router.post("/iniciar-sesion", loginController.iniciarSesion);
-router.post("/logout", loginController.CerrarSesion);
+router.post("/login", loginController.iniciarSesion);
+router.post("/logout", loginController.cerrarSesion);
 export default router;

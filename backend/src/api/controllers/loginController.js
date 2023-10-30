@@ -37,14 +37,12 @@ const iniciarSesion = async (req, res) => {
 	}
 };
 
-const CerrarSesion = async (req, res) => {
-	// Obtener el token JWT del encabezado Authorization
-	const token = req.headers.authorization;
+const cerrarSesion = async (req, res) => {
 
-	// Si el token es nulo, devolver un error
 	if (!token) {
 		return res.status(400).json({ message: "No hay token" });
 	}
+
 	// Borrar el token JWT del encabezado Authorization
 	res.clearCookie("jwt", { httpOnly: true });
 
@@ -54,5 +52,5 @@ const CerrarSesion = async (req, res) => {
 
 export default {
 	iniciarSesion,
-	CerrarSesion,
+	cerrarSesion,
 };
