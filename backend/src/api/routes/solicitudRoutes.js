@@ -11,6 +11,7 @@ router.get("/buscar/:id", checkUserRole(["admin", "encargado", "oficinista", "so
 router.put("/actualizar/:id", checkUserRole(["admin", "oficinista", "solicitante"]), solicitudController.actualizarSolicitudPorId);
 router.delete("/eliminar/:id", checkUserRole(["admin"]), solicitudController.eliminarSolicitudPorId);
 
-router.post("/actualizar/:id", checkUserRole(["admin", "encargado"]), solicitudController.modificarEstadoPorId);
+router.post("/actualizar/:id", checkUserRole(["admin", "encargado"]), solicitudController.modificarEstadoPorId); //modificar estado de la solicitud
+
 
 export default router;
