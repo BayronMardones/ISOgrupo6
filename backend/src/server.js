@@ -9,7 +9,7 @@ import agendaRoutes from "./api/routes/agendaRoutes.js";
 import solicitudRoutes from "./api/routes/solicitudRoutes.js";
 import usuarioRoutes from "./api/routes/usuarioRoutes.js";
 import loginRoutes from "./api/routes/loginRoutes.js";
-
+import filesRoutes from "./api/routes/fileRoutes.js";
 
 const app = express();
 const port = 3000;
@@ -22,6 +22,7 @@ app.use("/api/agenda", agendaRoutes);
 app.use("/api/solicitud", solicitudRoutes);
 app.use("/api/usuario", usuarioRoutes);
 app.use("/api/login", loginRoutes);
+app.use("/api/", filesRoutes);
 
 
 app.get("/", (req, res) => {
