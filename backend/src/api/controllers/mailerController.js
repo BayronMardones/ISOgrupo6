@@ -36,7 +36,7 @@ const enviarCorreo = (estado, email) => {
         if (error) {
           console.error('Error al enviar el correo:', error);
         } else {
-          console.log('Correo enviado:', info.response);
+          console.log('Correo enviado:');
         }
       });
 }

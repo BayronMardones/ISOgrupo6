@@ -3,7 +3,8 @@ import Solicitud from "../models/solicitud.js";
 import multer from "multer";
 import fs from "fs";
 import File from "../models/file.js";
-
+import Usuario from "../models/usuario.js";
+import enviarCorreo from "./mailerController.js";
 //const upload = multer({ storage: storage });
 
 // Listar todas las solicitudes
@@ -43,6 +44,8 @@ const crearSolicitud = async (req, res) => {
     const { archivosAdjuntos } = req.body;
     // Recupera los IDs de los archivos desde el cuerpo de la solicitud
     const archivosAdjuntosId = req.body.archivosAdjuntos;
+	//verificar que el estado este correcto
+	const estadosPermitidos = ["aprobado", "rechazado", "pendiente"];
 
     console.log("archivosAdjuntosId:", archivosAdjuntosId);
 
@@ -67,9 +70,14 @@ const crearSolicitud = async (req, res) => {
       feedback: req.body.feedback,
     });
 
+	// Verifica que el estado sea válido
+	if (req.body.estado !== undefined && !estadosPermitidos.includes(req.body.estado)) {
+		return res.status(400).json({ message: "El estado no es válido." });
+	}
+
     // Guarda la solicitud en la base de datos
     const solicitudGuardada = await nuevaSolicitud.save();
-
+	
     res.status(201).json(solicitudGuardada);
   } catch (err) {
     console.error("Error al crear una solicitud:", err);
@@ -77,11 +85,10 @@ const crearSolicitud = async (req, res) => {
   }
 };
 
-  
-  
 // Función para actualizar una solicitud por su ID
 const actualizarSolicitudPorId = async (req, res) => {
   try {
+	const estadosPermitidos = ["aprobado", "rechazado", "pendiente"];
     const solicitudId = req.params.id;
     const updatedData = req.body;
     const entradaAntigua = await Solicitud.findById(solicitudId);
@@ -98,13 +105,16 @@ const actualizarSolicitudPorId = async (req, res) => {
       return res.status(404).json({ message: "Solicitud no encontrada" });
     }
 
-    if (solicitudActualizada.estado !== entradaAntigua.estado) {
-			console.log("Estado de aprobación modificado CORREO ENVIADO");
-      const usuario = await Usuario.findById(solicitudActualizada.solicitante); 
+	if (!estadosPermitidos.includes(solicitudActualizada.estado)) {
+		return res.status(400).json({ message: "El estado no es válido." });
+	}
 
-			// Llama a enviarCorreo solo si estadoAprobacion ha cambiado
-			enviarCorreo(solicitudActualizada.estado, usuario.email);
-		}
+    if (solicitudActualizada.estado !== entradaAntigua.estado) {
+    	const usuario = await Usuario.findById(solicitudActualizada.solicitante); 
+
+		// Llama a enviarCorreo solo si estadoAprobacion ha cambiado
+		enviarCorreo(solicitudActualizada.estado, usuario.email);
+	}
 
     return res.status(200).json(solicitudActualizada);
   } catch (err) {

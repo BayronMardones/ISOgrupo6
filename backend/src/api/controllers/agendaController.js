@@ -1,5 +1,4 @@
 import Agenda from "../models/agenda.js";
-import enviarCorreo from "./mailerController.js";
 
 // Función para listar todos los usuarios
 const listarEntradasAgenda = async (req, res) => {
@@ -27,8 +26,6 @@ const crearEntradaAgenda = async (req, res) => {
 			solicitud,
 			encargadoVisita,
 			estadoAgenda,
-			feedback,
-			adjuntos,
 			fecha,
 		} = req.body;
 
@@ -45,8 +42,6 @@ const crearEntradaAgenda = async (req, res) => {
 			solicitud,
 			encargadoVisita,
 			estadoAgenda,
-			feedback,
-			adjuntos,
 			fecha,
 		});
 
@@ -85,9 +80,6 @@ const actualizarEntradaAgendaPorId = async (req, res) => {
 	try {
 		const entradaId = req.params.id;
 		const updatedData = req.body;
-
-		// Imprimir el valor antiguo de estadoAgenda
-		console.log("Valor antiguo de estadoAgenda:", entradaAntigua.estadoAgenda);
 
 		const entradaActualizada = await Agenda.findByIdAndUpdate(
 			entradaId,
