@@ -47,18 +47,26 @@ const crearSolicitud = async (req, res) => {
 	//verificar que el estado este correcto
 	const estadosPermitidos = ["aprobado", "rechazado", "pendiente"];
 
-    console.log("archivosAdjuntosId:", archivosAdjuntosId);
+		console.log("archivosAdjuntosId:", archivosAdjuntosId);
 
-    if (!archivosAdjuntos || !Array.isArray(archivosAdjuntos)) {
-      return res.status(400).json({ message: "La propiedad 'archivosAdjuntos' no es un array válido." });
-    }
+		if (!archivosAdjuntos || !Array.isArray(archivosAdjuntos)) {
+			return res
+				.status(400)
+				.json({
+					message: "La propiedad 'archivosAdjuntos' no es un array válido.",
+				});
+		}
 
-    // Verifica que los archivos existan en la base de datos antes de asociarlos a la solicitud
-    const archivosExistentes = await File.find({ _id: { $in: archivosAdjuntos } });
+		// Verifica que los archivos existan en la base de datos antes de asociarlos a la solicitud
+		const archivosExistentes = await File.find({
+			_id: { $in: archivosAdjuntos },
+		});
 
-    if (archivosAdjuntos.length !== archivosExistentes.length) {
-      return res.status(400).json({ message: "Algunos archivos adjuntos no existen." });
-    }
+		if (archivosAdjuntos.length !== archivosExistentes.length) {
+			return res
+				.status(400)
+				.json({ message: "Algunos archivos adjuntos no existen." });
+		}
 
     // Crea una nueva solicitud con los IDs de archivos asociados
     const nuevaSolicitud = new Solicitud({
@@ -116,17 +124,15 @@ const actualizarSolicitudPorId = async (req, res) => {
 		enviarCorreo(solicitudActualizada.estado, usuario.email);
 	}
 
-    return res.status(200).json(solicitudActualizada);
-  } catch (err) {
-    console.error("Error al actualizar una solicitud por ID:", err);
-    res
-      .status(500)
-      .json({
-        message: "Error al actualizar una solicitud por ID",
-        error: err.message,
-      });
-  }
-}
+		return res.status(200).json(solicitudActualizada);
+	} catch (err) {
+		console.error("Error al actualizar una solicitud por ID:", err);
+		res.status(500).json({
+			message: "Error al actualizar una solicitud por ID",
+			error: err.message,
+		});
+	}
+};
 
 // Función para buscar una solicitud por su ID
 const buscarSolicitudPorId = async (req, res) => {

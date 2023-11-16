@@ -8,23 +8,38 @@ const createFeedback = async (req, res) => {
 	try {
 		// Encuentra la solicitud por su ID
 		const solicitud = await Solicitud.findById(solicitudId);
-
 		if (!solicitud) {
 			return res.status(404).json({ message: "Solicitud no encontrada" });
 		}
+		// Verifica si hay archivos adjuntos
+		if (req.files && req.files.length > 0) {
+			// Procesa los archivos adjuntos (puedes adaptar esta lógica según tus necesidades)
+			const archivosAdjuntosId = req.files.map((file) => file.id);
+			// Agrega los archivos adjuntos al feedback
+			archivosAdjuntos.forEach((archivo) => {
+				archivo.idSolicitud = solicitudId;
+				archivo.url = "../upload/feedbackFiles/${archivo.nombre}";
+			});
+			// Agrega el feedback a la solicitud con los archivos adjuntos
+			solicitud.feedback.push({
+				comentarios,
+				observaciones,
+				archivosAdjuntos,
+			});
+			await solicitud.save();
+			return res.status(201).json({ message: "Feedback creado exitosamente" });
+		} else {
+			// Si no hay archivos adjuntos, simplemente agrega el feedback a la solicitud
+			solicitud.feedback.push({
+				comentarios,
+				observaciones,
+				archivosAdjuntos,
+			});
 
-		// Crea un nuevo objeto de feedback
-		const newFeedback = {
-			comentarios,
-			observaciones,
-			archivosAdjuntos,
-		};
+			await solicitud.save();
 
-		// Agrega el feedback a la solicitud
-		solicitud.feedback.push(newFeedback);
-		await solicitud.save();
-
-		return res.status(201).json(newFeedback);
+			return res.status(201).json({ message: "Feedback creado exitosamente" });
+		}
 	} catch (error) {
 		return res.status(500).json({ error: "Error al crear el feedback" });
 	}
@@ -91,7 +106,6 @@ const updateFeedback = async (req, res) => {
 // Función para eliminar un objeto de feedback en una solicitud
 export const deleteFeedback = async (req, res) => {
 	try {
-
 		const solicitudId = req.params.solicitud;
 		const feedbackId = req.params.feedbackId;
 		// Encuentra la solicitud por su ID

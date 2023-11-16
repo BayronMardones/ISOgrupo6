@@ -3,6 +3,7 @@ import fs from 'fs'
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
+        
         const route = './upload/' + req.params.archivo
         if (!fs.existsSync(route)) {
             fs.mkdirSync(route, { recursive: true })
@@ -31,5 +32,6 @@ const upload = multer({
         fileSize: 1024 * 1024 * 15
     }
 })
+
 
 export default upload;
