@@ -6,15 +6,15 @@ const fileSchema = new Schema({
   },
   name: {
     type: String,
-    requiered: true,
+    required: true,
   },
   mimeType: {
     type: String,
-    requiere: true,
+    required: true,
   },
   idSolicitud: {
      type: String,
-     requiere: true,
+     required: true,
   },
 });
 

@@ -1,13 +1,17 @@
-import { Schema, model } from "mongoose";
-
+import { Schema, model} from "mongoose";
 // Define un esquema para las solicitudes
 const solicitudSchema = new Schema(
 	{
 		solicitante: { type: Schema.Types.ObjectId, ref: "Usuario" }, // Referencia al usuario solicitante
-		detalles: String, //direccion
-		estado: String,
-		estado: {type: String, enum: ["activo", "inactivo", "pendiente"], default: "pendiente"},
+		detalles: String,
+		estado: {type: String, enum: ["aprobado", "rechazado", "pendiente"], default: "pendiente"},
 		archivosAdjuntos: [String],
+		direccion: {
+			zona: String,
+			calle: String,
+			numero: String,
+			
+		},
         feedback: [
 			{
                 comentarios: String,
