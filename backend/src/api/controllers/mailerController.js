@@ -14,7 +14,7 @@ const enviarCorreo = (solicitud, usuario) => {
     
       // Personaliza el asunto y el contenido del correo en función del estado
       if (solicitud.estado === 'aprobado') {
-        asunto = 'Solicitud Aprobada'+ usuario.nombre;
+        asunto = 'Solicitud Aprobada'; //agregar usuarios + usuario.nombre
         contenido = 'La solicitud ha sido aprobada.';
       } else if (solicitud.estado === 'pendiente') {
         asunto = 'Solicitud en Espera de Cambios';
