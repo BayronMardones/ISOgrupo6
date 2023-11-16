@@ -23,6 +23,11 @@ const listarUsuarios = async (req, res) => {
 // Función para crear un nuevo usuario
 const crearUsuario = async (req, res) => {
 	try {
+		if (!/^([0-9]{1,3}(.[0-9]{3})|[0-9]{1,3}(,[0-9]{3})|[0-9]+)-(k|K|[0-9])$/.test(req.body.rut)) {
+			return res
+			  .status(400)
+			  .json({ message: "El RUT ingresado no es válido, debes seguir el formato xx.xxx.xxx-x" });
+		  }
 		// Busca en la base de datos si existe algun usuario con el mismo rut
 		const usuarioExistente = await Usuario.findOne({ rut: req.body.rut });
 		// Si existe un usuario con el mismo rut, devolver un error
