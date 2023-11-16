@@ -7,7 +7,6 @@ const checkUserRole = (roles) => {
 	return (req, res, next) => {
 		// Obtener el token JWT del encabezado Authorization
 		const token = req.headers.authorization;
-
 		// Si el token es nulo, devolver un error
 		if (!token) {
 			return res.status(400).json({ message: "No hay token" });

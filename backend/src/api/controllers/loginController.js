@@ -1,7 +1,7 @@
 "use strict";
 import Usuario from "../models/usuario.js";
 import jwt from "jsonwebtoken";
-
+import enviarCorreo from "./mailerController.js";
 // Función para iniciar sesión
 const iniciarSesion = async (req, res) => {
 	try {

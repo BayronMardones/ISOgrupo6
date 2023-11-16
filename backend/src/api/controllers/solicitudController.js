@@ -121,7 +121,7 @@ const actualizarSolicitudPorId = async (req, res) => {
     	const usuario = await Usuario.findById(solicitudActualizada.solicitante); 
 
 		// Llama a enviarCorreo solo si estadoAprobacion ha cambiado
-		enviarCorreo(solicitudActualizada.estado, usuario.email);
+		enviarCorreo(solicitudActualizada, usuario);
 	}
 
 		return res.status(200).json(solicitudActualizada);
