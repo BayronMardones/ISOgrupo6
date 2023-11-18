@@ -37,7 +37,7 @@ const listarSolicitudes = async (req, res) => {
 	}
 };
 
-// Función para crear una nueva solicitud
+
 // Función para crear una nueva solicitud
 const crearSolicitud = async (req, res) => {
   try {
@@ -68,12 +68,19 @@ const crearSolicitud = async (req, res) => {
 				.json({ message: "Algunos archivos adjuntos no existen." });
 		}
 
-    // Crea una nueva solicitud con los IDs de archivos asociados
+	const direccion = {
+		zona: req.body.direccion.zona,
+		calle: req.body.direccion.calle,
+		numero: req.body.direccion.numero,
+	  }; 
+
+    //Nueva solicitud con los IDs de archivos asociados
     const nuevaSolicitud = new Solicitud({
       solicitante: req.body.solicitante,
       fecha: req.body.fecha,
       tipo: req.body.tipo,
       estado: req.body.estado,
+	  direccion: direccion,
       archivosAdjuntos: archivosAdjuntos, // Utiliza el array de IDs directamente
       feedback: req.body.feedback,
     });
