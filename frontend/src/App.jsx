@@ -1,14 +1,17 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// App.jsx
+import React, { useState } from 'react';
+import './App.css';
+import Login from './pages/login.jsx';
+//import Routes from './routes/routes.jsx';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
 
   return (
-    <h1>HOLA MUNDO</h1>
-  )
-}
+    
+    <Login />
+    
 
-export default App
+  );
+};
+
+export default App;

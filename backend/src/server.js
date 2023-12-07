@@ -1,3 +1,4 @@
+import cors from "cors";
 import express, { json } from "express";
 //importar variables de entorno
 
@@ -19,6 +20,9 @@ const port = process.env.PORT;
 
 //middleware
 app.use(json());
+
+//cors
+app.use(cors());
 
 //middleware para verificar roles admin, encargado, oficinista, vecino en las rutas
 app.use("/api/agenda", checkUserRole(["admin", "encargado", "oficinista"]), agendaRoutes);
