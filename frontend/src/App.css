@@ -40,3 +40,21 @@
 .read-the-docs {
   color: #888;
 }
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Esto asegura que ocupe el 100% del alto de la ventana */
+  
+}
+
+.login {
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #616161;
+  
+}
+

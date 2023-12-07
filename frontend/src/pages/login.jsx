@@ -21,10 +21,7 @@ const Login = () => {
 
 			if (response.ok) {
 				console.log("Inicio de sesión exitoso");
-				// Aquí podrías redirigir a /home
-
-
-
+				// Redirige a /home
 			} else {
 				console.error("Error en el inicio de sesión");
 				// Aquí podrías mostrar un mensaje de error al usuario
@@ -35,29 +32,33 @@ const Login = () => {
 	};
 
 	return (
-		<div>
-			<h1>Login</h1>
-			<div>
-				<label>
-					RUT:
-					<input
-						type="RUT"
-						value={rut}
-						onChange={(e) => setUsername(e.target.value)}
-					/>
-				</label>
+		<div className="login-container">
+			<div className="login">
+				<h1>Login</h1>
+				<div>
+					<label>
+						RUT:
+						<input
+							type="RUT"
+							value={rut}
+							onChange={(e) => setUsername(e.target.value)}
+						/>
+					</label>
+				</div>
+				<br />
+				<div>
+					<label>
+						Contraseña:
+						<input
+							type="Contraseña"
+							value={contrasena}
+							onChange={(e) => setPassword(e.target.value)}
+						/>
+					</label>
+				</div>
+				<br />
+				<button onClick={handleLogin}>Iniciar sesión</button>
 			</div>
-			<div>
-				<label>
-					Contraseña:
-					<input
-						type="Contraseña"
-						value={contrasena}
-						onChange={(e) => setPassword(e.target.value)}
-					/>
-				</label>
-			</div>
-			<button onClick={handleLogin}>Iniciar sesión</button>
 		</div>
 	);
 };
