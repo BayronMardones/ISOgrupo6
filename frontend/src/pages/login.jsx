@@ -45,7 +45,7 @@ const Login = () => {
 		<div className="login-container">
 			<div className="login">
 				<h1>Login</h1>
-				<div>
+				<div className="formulario"> 
 					<label>
 						RUT:
 						<input
@@ -56,7 +56,7 @@ const Login = () => {
 					</label>
 				</div>
 				<br />
-				<div>
+				<div className="formulario">
 					<label>
 						Contraseña:
 						<input

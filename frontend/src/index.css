@@ -89,5 +89,8 @@ button:focus-visible {
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #616161;
-  
+}
+
+.formulario {
+  text-align: end;
 }
