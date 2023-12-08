@@ -11,6 +11,13 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+}
+
+#root {
+  text-align: center;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
 a {
@@ -65,4 +72,22 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Esto asegura que ocupe el 100% del alto de la ventana */
+  
+}
+
+.login {
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #616161;
+  
 }

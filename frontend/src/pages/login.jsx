@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-//import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
-import "../App.css";
+import "../index.css";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"
 
 const Login = () => {
 	const [rut, setUsername] = useState("");
@@ -8,6 +9,10 @@ const Login = () => {
 
 	// Obtener la URL de la API desde las variables de entorno desde vite
 	const apiUrl = import.meta.env.VITE_API_URL;
+
+	const navigate = useNavigate();
+
+	const {login} = useAuth();
 
 	const handleLogin = async () => {
 		try {
@@ -20,8 +25,13 @@ const Login = () => {
 			});
 
 			if (response.ok) {
-				console.log("Inicio de sesión exitoso");
+				const data = await response.json(); 
+				console.log(data.token);
+				
 				// Redirige a /home
+				login(data.token)
+				
+				navigate('/home');
 			} else {
 				console.error("Error en el inicio de sesión");
 				// Aquí podrías mostrar un mensaje de error al usuario
