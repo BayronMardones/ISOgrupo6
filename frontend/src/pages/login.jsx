@@ -1,20 +1,20 @@
 import React, { useState } from "react";
-import "../index.css";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext"
+import { useAuth } from "../context/AuthContext";
+import "../index.css";
 
 const Login = () => {
-	const [rut, setUsername] = useState("");
-	const [contrasena, setPassword] = useState("");
+	const [rut, setRut] = useState("");
+	const [contrasena, setContrasena] = useState("");
+	const { login } = useAuth();
+	const navigate = useNavigate();
 
 	// Obtener la URL de la API desde las variables de entorno desde vite
 	const apiUrl = import.meta.env.VITE_API_URL;
 
-	const navigate = useNavigate();
+	const handleLogin = async (e) => {
+		e.preventDefault();
 
-	const {login} = useAuth();
-
-	const handleLogin = async () => {
 		try {
 			const response = await fetch(`${apiUrl}/login/login`, {
 				method: "POST",
@@ -25,13 +25,13 @@ const Login = () => {
 			});
 
 			if (response.ok) {
-				const data = await response.json(); 
+				const data = await response.json();
 				console.log(data.token);
-				
+
+				// Guarda el token en el contexto
+				login(data.token);
 				// Redirige a /home
-				login(data.token)
-				
-				navigate('/home');
+				navigate("/home");
 			} else {
 				console.error("Error en el inicio de sesión");
 				// Aquí podrías mostrar un mensaje de error al usuario
@@ -44,30 +44,30 @@ const Login = () => {
 	return (
 		<div className="login-container">
 			<div className="login">
-				<h1>Login</h1>
-				<div className="formulario"> 
-					<label>
-						RUT:
-						<input
-							type="RUT"
-							value={rut}
-							onChange={(e) => setUsername(e.target.value)}
-						/>
-					</label>
-				</div>
-				<br />
-				<div className="formulario">
-					<label>
-						Contraseña:
-						<input
-							type="Contraseña"
-							value={contrasena}
-							onChange={(e) => setPassword(e.target.value)}
-						/>
-					</label>
-				</div>
-				<br />
-				<button onClick={handleLogin}>Iniciar sesión</button>
+				<h1>LOGIN</h1>
+				<form onSubmit={handleLogin}>
+					<div className="formulario">
+						<label>
+							RUT:
+							<input
+								type="text"
+								value={rut}
+								onChange={(e) => setRut(e.target.value)}
+							/>
+						</label>
+					</div>
+					<div className="formulario">
+						<label>
+							Contraseña:
+							<input
+								type="password"
+								value={contrasena}
+								onChange={(e) => setContrasena(e.target.value)}
+							/>
+						</label>
+					</div>
+					<button className="login-button" type="submit">Iniciar sesión</button>
+				</form>
 			</div>
 		</div>
 	);

@@ -1,0 +1,93 @@
+/* Estilos para la barra de navegación */
+.navbar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background-color: #333;
+	padding: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	display: flex;
+	justify-content: space-between;
+	z-index: 2;
+}
+
+/* Estilos para la lista de elementos */
+ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+}
+
+/* Estilos para los elementos de la lista */
+li {
+	margin-right: 20px;
+}
+
+/* Estilos para los enlaces */
+a {
+	text-decoration: none;
+	color: white;
+}
+
+/* Estilos para los botones generales */
+button {
+	background-color: #dd473f;
+	color: white;
+	border: none;
+	padding: 2px 0px;
+	cursor: pointer;
+}
+
+/* Estilos para el botón de logout */
+.logout-button {
+	padding: 10px;
+	border-radius: 8px;
+	border: 1px solid #ccc;
+	background-color: #dd473f;
+	margin-left: auto;
+}
+
+.logout-button:hover,
+.logout-button:hover button {
+	border-color: #646cff;
+	color: #646cff;
+}
+
+/* Estilos para el botón de home */
+.home-button {
+	padding: 10px;
+	border-radius: 8px;
+	border: 1px solid #ccc;
+	background-color: #383838;
+	color: #213547;
+}
+
+.home-button:hover {
+	border-color: #646cff;
+}
+
+.home-button:hover a {
+	color: #646cff;
+}
+
+/* Estilos para el botón de toggle del sidebar */
+.sidebar-toggle-button {
+	background: none;
+	border: none;
+	font-size: 20px;
+	color: white;
+	cursor: pointer;
+}
+
+/* Estilos para la lista de elementos en el sidebar */
+.navbar-items {
+	list-style: none;
+	padding: 0;
+	margin-left: auto;
+	display: flex;
+	
+}
+
+

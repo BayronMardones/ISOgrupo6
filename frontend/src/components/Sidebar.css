@@ -1,0 +1,37 @@
+
+.sidebar {
+    width: 0px; /* Ancho inicial del sidebar cerrado */
+    height: 100vh;
+    background-color: #161616;
+    color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: width 0.1s ease;
+  }
+  
+  .sidebar.open {
+    width: 300px; /* Ancho del sidebar cuando está abierto */
+  }
+  
+  .toggle-button {
+    font-size: 1.5em;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px;
+  }
+  
+  .sidebar-content {
+    padding: 20px;
+  }
+
+  /* @media screen and (max-width: 768px) {
+    .sidebar,
+    .sidebar-open {
+      width: 0;
+      overflow: hidden;
+    }
+  } */
+  
