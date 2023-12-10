@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import "./Sidebar.css"; // Asegúrate de tener tus estilos CSS importados
+import "./Style.css";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
 	return (
 		<div className={`sidebar ${isOpen ? "open" : ""}`}>
-			<button className="toggle-button" onClick={toggleSidebar}>
-				☰
-			</button>
 			{isOpen && (
 				<div className="sidebar-content">
 					{/* Contenido del Sidebar */}

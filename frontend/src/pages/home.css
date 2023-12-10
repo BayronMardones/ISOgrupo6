@@ -1,3 +1,8 @@
+.page-content {
+	margin-left: 0;
+	transition: margin-left 0.1s;
+}
 
-
-  
+.page-content.sidebar-open {
+	margin-left: 250px;
+}

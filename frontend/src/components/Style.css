@@ -1,3 +1,7 @@
+:root {
+	--navbar-height: 45px; /* Ajusta la altura de la Navbar según sea necesario */
+}
+
 /* Estilos para la barra de navegación */
 .navbar {
 	position: fixed;
@@ -10,6 +14,7 @@
 	display: flex;
 	justify-content: space-between;
 	z-index: 2;
+	height: var(--navbar-height);
 }
 
 /* Estilos para la lista de elementos */
@@ -87,7 +92,42 @@ button {
 	padding: 0;
 	margin-left: auto;
 	display: flex;
-	
 }
 
+.sidebar {
+	width: 0px; /* Ancho inicial del sidebar cerrado */
+	height: 100vh;
+	background-color: #161616;
+	color: #fff;
+	position: fixed;
+	left: 0;
+	transition: width 0.1s ease;
+	top: calc(var(--navbar-height) + 20px);
+}
 
+.sidebar.open {
+	width: 250px;
+}
+
+.toggle-button {
+	font-size: 1.5em;
+	background: none;
+	color: #fff;
+	cursor: pointer;
+}
+
+.toggle-button:hover {
+	color: #646cff;
+}
+
+.sidebar-content {
+	padding: 20px;
+}
+
+/* @media screen and (max-width: 768px) {
+    .sidebar,
+    .sidebar-open {
+      width: 0;
+      overflow: hidden;
+    }
+  } */
