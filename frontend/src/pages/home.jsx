@@ -15,6 +15,15 @@ const Home = () => {
 			<Sidebar />
 			<div className="home-container">
 				<h1>Home</h1>
+				<br />
+				<br />
+				<br />
+				<h2>
+					Esta es la página de inicio.</h2>
+				<h2>
+					Si iniciaste sesión correctamente, deberías
+					ver el nombre de usuario en la esquina superior izquierda.
+				</h2>
 			</div>
 		</div>
 	);

@@ -7,7 +7,25 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 			{isOpen && (
 				<div className="sidebar-content">
 					{/* Contenido del Sidebar */}
-					<p>¡Hola! Este es tu Sidebar.</p>
+					<p className="sidebar-title" >MODULOS</p>
+						<p>
+							<button href="#">Inicio</button>
+						</p>
+						<p>
+							<button href="#">Solicitudes</button>
+						</p>
+						<p>
+							<button href="#">Agenda</button>
+						</p>
+						<p>
+							<button href="#">Usuarios</button>
+						</p>
+						<p>
+							<button href="#">Contacto</button>
+						</p>
+						<p>
+							<button href="#">Cerrar Sesión</button>
+						</p>
 				</div>
 			)}
 		</div>

@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #FFFFFF;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -31,9 +31,30 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 2em;
   line-height: 1.1;
+  color: #006FB3;
 }
+
+h2 {
+  font-size: 1.5em;
+  line-height: 1.1;
+  color: #006FB3;
+}
+
+h3 {
+  font-size: 1.2em;
+  line-height: 1;
+  color: #006FB3;
+}
+
+h4 {
+  font-size: 1em;
+  line-height: 0;
+  color: #006FB3;
+  text-align: left;
+}
+
 
 button {
   border-radius: 8px;
@@ -49,8 +70,8 @@ button {
 
 button:hover,
 button:hover button {
-	border-color: #646cff;
-	color: #646cff;
+	border-color: #006FB3;
+	color: #006FB3;
 }
 
 button:focus,
@@ -64,7 +85,7 @@ button:focus-visible {
     background-color: #ffffff;
   }
   a:hover {
-    color: #747bff;
+    color: #006FB3;
   }
   button {
     background-color: #f9f9f9;
@@ -75,17 +96,24 @@ button:focus-visible {
 .login-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh; /* Esto asegura que ocupe el 100% del alto de la ventana */
-  
+  align-items: start;
+  height: 320px;
+  width: 100%;
 }
 
 .login {
   text-align: center;
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 2px solid #000000;
   border-radius: 8px;
-  background-color: #616161;
+  background-color: #ffffff;
+}
+
+.login label {
+  font-size: 1em;
+  font-weight: 600;
+  line-height: 1;
+  color: #006FB3;
 }
 
 .formulario {
@@ -96,14 +124,29 @@ button:focus-visible {
   padding: 10px;
   margin: 10px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
+  background-color: #ffffff;
+  color: #000000;
 }
+
+
 
 .login-button {
   padding: 10px;
   margin: 10px;
   border-radius: 8px;
-  border: 1px solid #ccc;
-  background-color: #0b911d;
+  border: 1px solid #000000;
+  background-color: #006FB3;
   color: white;
+}
+
+.register {
+  padding: 20px;
+  color: #FE6565;
+
+}
+
+.register:hover{
+  text-decoration: underline;
+  color: #006FB3
 }

@@ -42,32 +42,43 @@ const Login = () => {
 	};
 
 	return (
-		<div className="login-container">
-			<div className="login">
-				<h1>LOGIN</h1>
-				<form onSubmit={handleLogin}>
-					<div className="formulario">
-						<label>
-							RUT:
-							<input
-								type="text"
-								value={rut}
-								onChange={(e) => setRut(e.target.value)}
-							/>
-						</label>
-					</div>
-					<div className="formulario">
-						<label>
-							Contraseña:
-							<input
-								type="password"
-								value={contrasena}
-								onChange={(e) => setContrasena(e.target.value)}
-							/>
-						</label>
-					</div>
-					<button className="login-button" type="submit">Iniciar sesión</button>
-				</form>
+		<div>
+			<h1>Edificación, Obras, Regularización</h1>
+			<h3>Por favor, inicia sesión para continuar</h3>
+			<br />
+			<div className="login-container">
+				<div className="login">
+					<form onSubmit={handleLogin}>
+						<div className="formulario">
+						<h4>RUT</h4>
+							<label>
+								<input
+									type="text"
+									value={rut}
+									onChange={(e) => setRut(e.target.value)}
+								/>
+							</label>
+						</div>
+						<div className="formulario">
+							<h4> Contraseña</h4>
+							<label>
+								
+								<input
+								// texto dentro de la caja de texto del password
+									type="password"
+									value={contrasena}
+									onChange={(e) => setContrasena(e.target.value)}
+								/>
+							</label>
+						</div>
+						<button className="login-button" type="submit">
+							Iniciar sesión
+						</button>
+					</form>
+				</div>
+			</div>
+			<div>
+				<h3 className="register">Revisa el estado de tu solicitud aquí</h3>
 			</div>
 		</div>
 	);

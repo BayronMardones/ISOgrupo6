@@ -34,6 +34,9 @@ const Navbar = () => {
 				<button className="toggle-button" onClick={toggleSidebar}>
 					☰
 				</button>
+				{/* Muestra el nombre de usuario si está autenticado correctamente*/}
+				<h1 className="user-name">Bienvenido Bayron</h1>
+				<div className="spacer" />
 				<ul>
 					<li className="home-button">
 						<Link to="/home">Home</Link>
