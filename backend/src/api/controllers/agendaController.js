@@ -30,13 +30,13 @@ const crearEntradaAgenda = async (req, res) => {
 		} = req.body;
 
 		// Verifica si ya existe una entrada de agenda para la misma fecha
-		const entradaExistente = await Agenda.findOne({ fecha });
+		const entradaExistente = await Agenda.findOne({ fecha, encargadoVisita });
 
-		if (entradaExistente) {
-			return res.status(400).json({
-				message: "Ya existe una entrada de agenda para la misma fecha.",
-			});
-		}
+        if (entradaExistente) {
+            return res.status(400).json({
+                message: "Ya existe una entrada de agenda para el mismo encargado en la misma fecha.",
+            });
+        }
 
 		const nuevaEntradaAgenda = new Agenda({
 			solicitud,

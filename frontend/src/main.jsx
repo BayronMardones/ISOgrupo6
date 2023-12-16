@@ -4,6 +4,7 @@ import "./index.css";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import NotFound from "./pages/notFound";
+import Agenda from "./pages/Agenda";
 import {
 	createBrowserRouter,
 	RouterProvider,
@@ -21,18 +22,23 @@ const PrivateRoute = ({ element }) => {
 };
 
 const Router = createBrowserRouter([
-	{
-		path: "/",
-		element: <Login />,
-	},
-	{
-		path: "/home",
-		element: <PrivateRoute element={<Home />} />,
-	},
-	{
-		path: "*",
-		element: <PrivateRoute element={<NotFound />} />,
-	},
+  {
+    path: "/",
+    element: <Login />,
+  },
+  {
+    path: "/home",
+    element: <PrivateRoute element={<Home />} />,
+  },
+  {
+    path: "*",
+    element: <PrivateRoute element={<NotFound />} />,
+  },
+
+  {
+    path: "/agenda",
+    element: <PrivateRoute element={<Agenda />} />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
