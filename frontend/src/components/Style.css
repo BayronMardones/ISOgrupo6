@@ -1,15 +1,20 @@
+:root {
+	--navbar-height: 45px; /* Ajusta la altura de la Navbar según sea necesario */
+}
+
 /* Estilos para la barra de navegación */
 .navbar {
 	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
-	background-color: #333;
+	background-color: #006fb3;
 	padding: 10px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.1);
 	display: flex;
 	justify-content: space-between;
 	z-index: 2;
+	height: var(--navbar-height);
 }
 
 /* Estilos para la lista de elementos */
@@ -25,15 +30,25 @@ li {
 	margin-right: 20px;
 }
 
-/* Estilos para los enlaces */
 a {
 	text-decoration: none;
 	color: white;
 }
 
+/* Estilos para los enlaces */
+.sidebar-content button {
+	text-decoration: none;
+	color: #213547;
+	background-color: #a8b7c7;
+	border-radius: 8px;
+	border: 1px solid #ccc;
+	padding: 15px;
+	width: 100%;
+}
+
 /* Estilos para los botones generales */
 button {
-	background-color: #dd473f;
+	background-color: #fe6565;
 	color: white;
 	border: none;
 	padding: 2px 0px;
@@ -45,7 +60,7 @@ button {
 	padding: 10px;
 	border-radius: 8px;
 	border: 1px solid #ccc;
-	background-color: #dd473f;
+	background-color: #fe6565;
 	margin-left: auto;
 }
 
@@ -60,16 +75,16 @@ button {
 	padding: 10px;
 	border-radius: 8px;
 	border: 1px solid #ccc;
-	background-color: #383838;
+	background-color: #0a132d;
 	color: #213547;
 }
 
 .home-button:hover {
-	border-color: #646cff;
+	border-color: #fe6565;
 }
 
 .home-button:hover a {
-	color: #646cff;
+	color: #fe6565;
 }
 
 /* Estilos para el botón de toggle del sidebar */
@@ -87,7 +102,132 @@ button {
 	padding: 0;
 	margin-left: auto;
 	display: flex;
-	
 }
 
+.sidebar {
+	width: 0px; /* Ancho inicial del sidebar cerrado */
+	height: 100vh;
+	background-color: #0a132d;
+	color: #fff;
+	position: fixed;
+	left: 0;
+	transition: width 0.1s ease;
+	top: calc(var(--navbar-height) + 20px);
+}
 
+.sidebar.open {
+	width: 250px;
+}
+
+.toggle-button {
+	font-size: 1.5em;
+	background: none;
+	color: #fff;
+	cursor: pointer;
+	border: 2px solid #fff;
+	padding: 5px 5px;
+	margin-left: 5px;
+}
+
+.toggle-button:hover {
+	color: #fe6565;
+	border: 2px solid #fe6565;
+}
+
+.sidebar-content {
+	padding: 20px;
+}
+
+.user-name {
+	font-size: 1.5em;
+	color: #fff;
+	margin: 9px;
+	margin-left: 20px;
+}
+
+.spacer {
+	flex-grow: 1;
+}
+
+.sidebar-title {
+	font-size: 1.4em;
+	color: #fff;
+	font-weight: bold;
+	margin-top: -2px;
+	margin-bottom: 10px;
+}
+
+.feedback-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.feedback {
+	font-size: 1em;
+	color: #000000;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	display: flex;
+	align-self: center;
+}
+
+/* Style.css */
+.feedback-form {
+	display: flex;
+	flex-direction: column;
+	gap: 10px; /* Espacio entre elementos, ajusta según tus preferencias */
+	margin-bottom: 20px; /* Ajusta el margen inferior según tus preferencias */
+}
+
+.feedback-input {
+	width: 100%;
+	padding: 8px;
+	font-size: 14px;
+	margin-bottom: 10px; /* Ajusta el margen inferior según tus preferencias */
+	border-radius: 10px;
+	background-color: #fff;
+	color: #000000;
+	align-self: center;
+}
+
+.feedback-input::placeholder {
+	color: #2b2b2b; /* Puedes ajustar el color según tus preferencias */
+}
+
+.feedback-submit {
+	background-color: #646cff; /* Color de fondo, ajusta según tus preferencias */
+	color: #fff; /* Color del texto, ajusta según tus preferencias */
+	padding: 10px;
+	cursor: pointer;
+	border-radius: 10px;
+	align-self: center;
+}
+
+.feedback-submit:hover {
+	background-color: #0056b3; /* Color de fondo al pasar el ratón, ajusta según tus preferencias */
+}
+
+.fecha-publicacion {
+	font-size: 12px;
+	color: #888;
+	margin-top: 8px;
+}
+
+.comentario {
+	font-size: 14px;
+	color: #000000;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 300px;
+	border: #000000 1px solid;
+	padding: 5px 10px;
+	border-radius: 10px;
+}
+
+.comentario button {
+	background-color: #fe6565;
+	color: #fff;
+	border: none;
+	padding: 4px 5px;
+	cursor: pointer;
+}
