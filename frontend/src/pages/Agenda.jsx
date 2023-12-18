@@ -12,8 +12,6 @@ const Agenda = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
     const { token } = useAuth();
 
-    //MODIFICAR AGENDA
-
     //CREAR AGENDA NUEVA
     const handleInputChange = (event) => {
         setNewAgenda({ ...newAgenda, [event.target.name]: event.target.value });
@@ -195,6 +193,7 @@ const Agenda = () => {
                                 <td>{userData[agenda.encargadoVisita]?._id}</td>
                                 <td>{userData[agenda.encargadoVisita]?.rut}</td>
                                 <td>{solicitudData[agenda.solicitud]?.estado}</td>
+                                <td>{agenda.fecha}</td>
                                 <td>{new Date(agenda.fecha).toLocaleDateString()}</td>
                                 <td>{new Date(agenda.fecha).toISOString().split('T')[1].substring(0, 8)}</td>
                                 <td>

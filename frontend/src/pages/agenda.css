@@ -15,6 +15,10 @@ td, th {
 
 }
 
+.ActualizaAgenda td, th{
+    color: #006FB3; /* Cambia esto al color que desees */
+}
+
 table {
     border-collapse: collapse; /* Esto asegura que los bordes de las celdas se fusionen en una sola línea */
 }
