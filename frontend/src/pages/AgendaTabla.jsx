@@ -49,9 +49,7 @@ const AgendaTabla = () => {
                             <td>{agenda.solicitud}</td>
                             <td>{new Date(agenda.fecha).toLocaleDateString()}</td>
                             <td>{new Date(agenda.fecha).toLocaleTimeString()}</td>
-                            <td>
-                                <button>hacer espacio</button>
-                            </td>
+                            <br />
                         </tr>
                     ))}
                 </tbody>

@@ -28,10 +28,10 @@ td, th {
 	padding: 0 20px; 
 }
 
-tr:nth-child(even) {
-    background-color: #fe9a9a; /* Cambia esto al color que desees para las filas pares */
+/* tr:nth-child(even) {
+    background-color: #fe9a9a;
 }
 
 tr:nth-child(odd) {
-    background-color: #ffffff; /* Cambia esto al color que desees para las filas impares */
-}
+    background-color: #ffffff;
+} */
