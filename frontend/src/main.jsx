@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { SidebarProvider } from "./context/SideBarContext";
+import SolicitudDetails from "./pages/SolicitudDetails";
 
 const PrivateRoute = ({ element }) => {
 	const { isAuthenticated } = useAuth();
@@ -38,6 +39,10 @@ const Router = createBrowserRouter([
   {
     path: "/agenda",
     element: <PrivateRoute element={<Agenda />} />,
+  },
+  {
+    path: "/feedback/:id",
+    element: <PrivateRoute element={<SolicitudDetails/>} />,
   },
 ]);
 

@@ -48,12 +48,11 @@ const createFeedback = async (req, res) => {
 // Controlador para obtener el feedback de una solicitud
 const getFeedback = async (req, res) => {
 	const solicitudId = req.params.solicitud;
-	console.log(solicitudId);
 
 	try {
 		// Encuentra la solicitud por su ID
 		const solicitud = await Solicitud.findById(solicitudId);
-		console.log(solicitud.feedback);
+
 
 		if (!solicitud) {
 			return res.status(404).json({ message: "Solicitud no encontrada" });

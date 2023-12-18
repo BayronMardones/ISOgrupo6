@@ -35,7 +35,6 @@ const Navbar = () => {
 					☰
 				</button>
 				{/* Muestra el nombre de usuario si está autenticado correctamente*/}
-				<h1 className="user-name">Bienvenido Bayron</h1>
 				<div className="spacer" />
 				<ul>
 					<li className="home-button">
@@ -44,7 +43,7 @@ const Navbar = () => {
 					{isAuthenticated ? (
 						<>
 							<li className="logout-button">
-								<button onClick={logout}>Cerrar Sesión</button>
+								<button onClick={logout}>Logout</button>
 							</li>
 						</>
 					) : null}
