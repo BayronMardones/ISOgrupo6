@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useAuth } from "../context/AuthContext";
-import "../index.css";
+import { Link } from 'react-router-dom';
+import "./agenda.css";
 
 const Agenda = () => {
     const [agendaData, setAgendaData] = useState([]);
@@ -11,6 +12,7 @@ const Agenda = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
     const { token } = useAuth();
 
+    //MODIFICAR AGENDA
 
     //CREAR AGENDA NUEVA
     const handleInputChange = (event) => {
@@ -183,6 +185,7 @@ const Agenda = () => {
                             <th>rut encargado</th>
                             <th>Solicitud</th>
                             <th>Fecha</th>
+                            <th>Hora</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -192,9 +195,15 @@ const Agenda = () => {
                                 <td>{userData[agenda.encargadoVisita]?._id}</td>
                                 <td>{userData[agenda.encargadoVisita]?.rut}</td>
                                 <td>{solicitudData[agenda.solicitud]?.estado}</td>
-                                <td>{agenda.fecha}</td>
+                                <td>{new Date(agenda.fecha).toLocaleDateString()}</td>
+                                <td>{new Date(agenda.fecha).toISOString().split('T')[1].substring(0, 8)}</td>
                                 <td>
-                                    <button onClick={() => handleDelete(agenda._id)}>Eliminar</button>
+                                    <button onClick={() => handleDelete(agenda._id)}>Eliminar Agenda</button>
+                                </td>
+                                <td>
+                                    <Link to={`/agenda/actualizar/${agenda._id}`}>
+                                        <button>Actualizar Agenda</button>
+                                    </Link>
                                 </td>
                             </tr>
                         ))}

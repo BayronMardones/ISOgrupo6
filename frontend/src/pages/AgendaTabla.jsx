@@ -1,18 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useAuth } from "../context/AuthContext";
-import "../index.css";
-import {
-    Table,
-    Thead,
-    Tbody,
-    Tfoot,
-    Tr,
-    Th,
-    Td,
-    TableCaption,
-    TableContainer,
-} from '@chakra-ui/react'
-
+import "./agenda.css";
 
 const AgendaTabla = () => {
     const [agendas, setAgendas] = useState([]);
@@ -21,14 +9,20 @@ const AgendaTabla = () => {
 
     useEffect(() => {
         const fetchAgendas = async () => {
-            const response = await fetch(`${apiUrl}/agenda/`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': token,
-                },
-            });
-            const data = await response.json();
-            setAgendas(data);
+            try {
+                const response = await fetch(`${apiUrl}/agenda/`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': token,
+                    },
+                });
+                const data = await response.json();
+                setAgendas(data);
+
+            } catch (error) {
+                console.error("Error de red:", error);
+            }
         };
 
         fetchAgendas();
@@ -37,7 +31,8 @@ const AgendaTabla = () => {
     // ...
 
     return (
-        <div>
+        <div className="miTabla">
+            <h1>HOLA</h1>
             <table>
                 <thead>
                     <tr>
@@ -54,42 +49,14 @@ const AgendaTabla = () => {
                             <td>{agenda.solicitud}</td>
                             <td>{new Date(agenda.fecha).toLocaleDateString()}</td>
                             <td>{new Date(agenda.fecha).toLocaleTimeString()}</td>
+                            <td>
+                                <button>hacer espacio</button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
 
-            <TableContainer>
-                <Table variant="striped" colorScheme="teal">
-                    <TableCaption>Agenda</TableCaption>
-                    <Thead>
-                        <Tr>
-                            <Th>Encargado Visita</Th>
-                            <Th>Solicitud</Th>
-                            <Th>Fecha</Th>
-                            <Th>Hora</Th>
-                        </Tr>
-                    </Thead>
-                    <Tbody>
-                        {agendas.map((agenda) => (
-                            <Tr key={agenda._id}>
-                                <Td>{agenda.encargadoVisita}</Td>
-                                <Td>{agenda.solicitud}</Td>
-                                <Td>{new Date(agenda.fecha).toLocaleDateString()}</Td>
-                                <Td>{new Date(agenda.fecha).toLocaleTimeString()}</Td>
-                            </Tr>
-                        ))}
-                    </Tbody>
-                    <Tfoot>
-                        <Tr>
-                            <Th>Encargado Visita</Th>
-                            <Th>Solicitud</Th>
-                            <Th>Fecha</Th>
-                            <Th>Hora</Th>
-                        </Tr>
-                    </Tfoot>
-                </Table>
-            </TableContainer>
         </div>
 
     );

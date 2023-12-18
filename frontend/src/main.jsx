@@ -6,22 +6,22 @@ import Login from "./pages/login";
 import NotFound from "./pages/notFound";
 import Agenda from "./pages/Agenda";
 import AgendaTabla from "./pages/AgendaTabla";
+import ActualizaAgenda from "./pages/ActualizaAgenda";
 import {
-	createBrowserRouter,
-	RouterProvider,
-	Navigate,
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
 } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
-import { ChakraProvider } from "@chakra-ui/react";
 import { SidebarProvider } from "./context/SideBarContext";
 import SolicitudDetails from "./pages/SolicitudDetails";
 
 const PrivateRoute = ({ element }) => {
-	const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
 
-	console.log(isAuthenticated);
+  console.log(isAuthenticated);
 
-	return isAuthenticated ? element : <Navigate to="/" />;
+  return isAuthenticated ? element : <Navigate to="/" />;
 };
 
 const Router = createBrowserRouter([
@@ -44,22 +44,24 @@ const Router = createBrowserRouter([
   },
   {
     path: "/feedback/:id",
-    element: <PrivateRoute element={<SolicitudDetails/>} />,
+    element: <PrivateRoute element={<SolicitudDetails />} />,
   },
   {
     path: "/agendatabla",
     element: <PrivateRoute element={<AgendaTabla />} />,
   },
+  {
+    path: "/agenda/actualizar/:id",
+    element: <PrivateRoute element={<ActualizaAgenda />} />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <ChakraProvider>
-  	<AuthProvider>
-  		<SidebarProvider>
-			<RouterProvider router={Router} />
-  		</SidebarProvider>
-	</AuthProvider>
-  </ChakraProvider>
+    <AuthProvider>
+      <SidebarProvider>
+        <RouterProvider router={Router} />
+      </SidebarProvider>
+    </AuthProvider>
 );
 
 export default Router;
