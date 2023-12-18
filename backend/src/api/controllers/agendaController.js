@@ -1,4 +1,6 @@
 import Agenda from "../models/agenda.js";
+import Solicitud from "../models/solicitud.js";
+import Usuario from "../models/usuario.js";
 
 // Función para listar todos los usuarios
 const listarEntradasAgenda = async (req, res) => {
@@ -29,25 +31,75 @@ const crearEntradaAgenda = async (req, res) => {
 			fecha,
 		} = req.body;
 
-		// Verifica si ya existe una entrada de agenda para la misma fecha
-		const entradaExistente = await Agenda.findOne({ fecha, encargadoVisita });
+		// Convierte la fecha a un objeto Date de JavaScript
+		const fechaObj = new Date(fecha + '+00:00');
+		// Obtiene la fecha y hora actual
+		const ahora = new Date();
 
-        if (entradaExistente) {
-            return res.status(400).json({
-                message: "Ya existe una entrada de agenda para el mismo encargado en la misma fecha.",
-            });
-        }
+		// Calcula las fechas una hora antes y una hora después
+		const unaHoraAntes = new Date(fechaObj.getTime() - 59 * 60 * 1000);
+		const unaHoraDespues = new Date(fechaObj.getTime() + 59 * 60 * 1000);
+
+		// Verifica si el encargado de la visita existe
+		const encargadoExistente = await Usuario.findById(encargadoVisita);
+		// Verifica si la solicitud existe
+		const solicitudExistente = await Solicitud.findById(solicitud);
+		// Extrae la hora de fechaObj
+		const hora = fechaObj.getUTCHours();
+
+		if (!encargadoExistente) {
+			return res.status(400).json({
+				message: "El encargado de la visita no existe.",
+			});
+		}
+
+		if (!solicitudExistente) {
+			return res.status(400).json({
+				message: "La solicitud no existe.",
+			});
+		}
+
+		// Verifica si la fecha es anterior a la fecha y hora actual
+		if (fechaObj < ahora) {
+			return res.status(400).json({
+				message: "No se puede agendar una fecha anterior a la actual.",
+			});
+		}
+
+		// Verifica si la hora está fuera del rango permitido
+		if (hora < 8 || hora > 14) {
+			return res.status(400).json({
+				message: "Solo se puede crear una entrada entre las 08:00 y las 14:00.",
+			});
+		}
+
+		// Verifica si ya existe una entrada de agenda para la misma fecha
+		//const entradaExistente = await Agenda.findOne({ fecha, encargadoVisita });
+
+		const entradaExistente = await Agenda.findOne({
+			encargadoVisita,
+			fecha: {
+				$gte: unaHoraAntes,
+				$lte: unaHoraDespues,
+			},
+		});
+
+		if (entradaExistente) {
+			return res.status(400).json({
+				message: "Ya existe una entrada de agenda para el mismo encargado dentro de una hora de la fecha proporcionada.",
+			});
+		}
 
 		const nuevaEntradaAgenda = new Agenda({
 			solicitud,
 			encargadoVisita,
 			estadoAgenda,
-			fecha,
+			fecha: fechaObj,
 		});
-
 		const entradaGuardada = await nuevaEntradaAgenda.save();
 
 		res.status(201).json(entradaGuardada);
+
 	} catch (err) {
 		console.error("Error al crear una entrada en la agenda:", err);
 		res.status(500).json({
@@ -96,7 +148,7 @@ const actualizarEntradaAgendaPorId = async (req, res) => {
 			"Valor NUEVO de estadoAgenda:",
 			entradaActualizada.estadoAgenda
 		);
-		
+
 		return res.status(200).json(entradaActualizada);
 	} catch (err) {
 		console.error("Error al actualizar una entrada en la agenda:", err);

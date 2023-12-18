@@ -5,12 +5,14 @@ import Home from "./pages/home";
 import Login from "./pages/login";
 import NotFound from "./pages/notFound";
 import Agenda from "./pages/Agenda";
+import AgendaTabla from "./pages/AgendaTabla";
 import {
 	createBrowserRouter,
 	RouterProvider,
 	Navigate,
 } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import { ChakraProvider } from "@chakra-ui/react";
 import { SidebarProvider } from "./context/SideBarContext";
 import SolicitudDetails from "./pages/SolicitudDetails";
 
@@ -44,14 +46,20 @@ const Router = createBrowserRouter([
     path: "/feedback/:id",
     element: <PrivateRoute element={<SolicitudDetails/>} />,
   },
+  {
+    path: "/agendatabla",
+    element: <PrivateRoute element={<AgendaTabla />} />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-	<AuthProvider>
-		<SidebarProvider>
+  <ChakraProvider>
+  	<AuthProvider>
+  		<SidebarProvider>
 			<RouterProvider router={Router} />
-		</SidebarProvider>
+  		</SidebarProvider>
 	</AuthProvider>
+  </ChakraProvider>
 );
 
 export default Router;

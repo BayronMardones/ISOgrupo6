@@ -152,6 +152,27 @@ const ModificarRol = async (req, res) => {
 	res.send("Usuario modificado exitosamente");
 };
 
+const listarUsuariosPorRol = async (req, res) => {
+	try {
+		const rol = req.params.rol;
+
+		// Buscar usuarios en la base de datos que coincidan con el rol
+		const usuarios = await Usuario.find({ rol });
+
+		// Si no se encontraron usuarios, devolver un error
+		if (!usuarios.length) {
+			return res.status(404).send("No se encontraron usuarios con ese rol");
+		}
+
+		// Devolver la lista de usuarios
+		return res.status(200).json(usuarios);
+	} catch (error) { 
+		// Devolver un error
+		return res.status(500).json({ message: "Error al listar los usuarios", error: error });
+	}
+
+};
+
 export default {
 	listarUsuarios,
 	crearUsuario,
@@ -160,4 +181,5 @@ export default {
 	eliminarUsuarioPorID,
 	obtenerSolicitud,
 	ModificarRol,
+	listarUsuariosPorRol,
 };
