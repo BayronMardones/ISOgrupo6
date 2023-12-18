@@ -1,5 +1,4 @@
 import Agenda from "../models/agenda.js";
-import enviarCorreo from "./mailerController.js";
 
 // Función para listar todos los usuarios
 const listarEntradasAgenda = async (req, res) => {
@@ -27,26 +26,22 @@ const crearEntradaAgenda = async (req, res) => {
 			solicitud,
 			encargadoVisita,
 			estadoAgenda,
-			feedback,
-			adjuntos,
 			fecha,
 		} = req.body;
 
 		// Verifica si ya existe una entrada de agenda para la misma fecha
-		const entradaExistente = await Agenda.findOne({ fecha });
+		const entradaExistente = await Agenda.findOne({ fecha, encargadoVisita });
 
-		if (entradaExistente) {
-			return res.status(400).json({
-				message: "Ya existe una entrada de agenda para la misma fecha.",
-			});
-		}
+        if (entradaExistente) {
+            return res.status(400).json({
+                message: "Ya existe una entrada de agenda para el mismo encargado en la misma fecha.",
+            });
+        }
 
 		const nuevaEntradaAgenda = new Agenda({
 			solicitud,
 			encargadoVisita,
 			estadoAgenda,
-			feedback,
-			adjuntos,
 			fecha,
 		});
 
@@ -85,10 +80,6 @@ const actualizarEntradaAgendaPorId = async (req, res) => {
 	try {
 		const entradaId = req.params.id;
 		const updatedData = req.body;
-		const entradaAntigua = await Agenda.findById(entradaId);
-
-		// Imprimir el valor antiguo de estadoAgenda
-		console.log("Valor antiguo de estadoAgenda:", entradaAntigua.estadoAgenda);
 
 		const entradaActualizada = await Agenda.findByIdAndUpdate(
 			entradaId,
@@ -105,12 +96,7 @@ const actualizarEntradaAgendaPorId = async (req, res) => {
 			"Valor NUEVO de estadoAgenda:",
 			entradaActualizada.estadoAgenda
 		);
-		// Verifica si estadoAgenda ha cambiado
-		if (entradaActualizada.estadoAgenda !== entradaAntigua.estadoAgenda) {
-			console.log("Estado de aprobación modificado CORREO ENVIADO");
-			// Llama a enviarCorreo solo si estadoAprobacion ha cambiado
-			enviarCorreo(updatedData.estadoAgenda);
-		}
+		
 		return res.status(200).json(entradaActualizada);
 	} catch (err) {
 		console.error("Error al actualizar una entrada en la agenda:", err);

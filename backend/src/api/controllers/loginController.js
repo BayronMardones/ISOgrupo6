@@ -1,7 +1,7 @@
 "use strict";
 import Usuario from "../models/usuario.js";
 import jwt from "jsonwebtoken";
-
+import enviarCorreo from "./mailerController.js";
 // Función para iniciar sesión
 const iniciarSesion = async (req, res) => {
 	try {
@@ -38,7 +38,8 @@ const iniciarSesion = async (req, res) => {
 };
 
 const cerrarSesion = async (req, res) => {
-
+// Obtener el token JWT del encabezado Authorization
+	const token = req.headers.authorization;
 	if (!token) {
 		return res.status(400).json({ message: "No hay token" });
 	}

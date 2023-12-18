@@ -5,22 +5,22 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #FFFFFF;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+#root {
+  text-align: center;
+  margin: 0 auto;
+  padding: 2rem;
 }
-a:hover {
-  color: #535bf2;
-}
+
+
 
 body {
   margin: 0;
@@ -31,9 +31,37 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 2em;
   line-height: 1.1;
+  color: #006FB3;
 }
+
+h2 {
+  font-size: 1.5em;
+  line-height: 1.1;
+  color: #006FB3;
+}
+
+h3 {
+  font-size: 1.2em;
+  line-height: 1;
+  color: #006FB3;
+}
+
+h4 {
+  font-size: 1em;
+  line-height: 0;
+  color: #006FB3;
+  text-align: left;
+}
+
+td {
+  font-size: 1em;
+  line-height: 0;
+  color: #006FB3;
+  text-align: left;
+}
+
 
 button {
   border-radius: 8px;
@@ -46,9 +74,13 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
+
+button:hover,
+button:hover button {
+	border-color: #006FB3;
+	color: #006FB3;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -60,9 +92,68 @@ button:focus-visible {
     background-color: #ffffff;
   }
   a:hover {
-    color: #747bff;
+    color: #006FB3;
   }
   button {
     background-color: #f9f9f9;
   }
+}
+
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  height: 320px;
+  width: 100%;
+}
+
+.login {
+  text-align: center;
+  padding: 20px;
+  border: 2px solid #000000;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+.login label {
+  font-size: 1em;
+  font-weight: 600;
+  line-height: 1;
+  color: #006FB3;
+}
+
+.formulario {
+  text-align: end;
+}
+
+.formulario input {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 8px;
+  border: 1px solid #000000;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+
+
+.login-button {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 8px;
+  border: 1px solid #000000;
+  background-color: #006FB3;
+  color: white;
+}
+
+.register {
+  padding: 20px;
+  color: #FE6565;
+
+}
+
+.register:hover{
+  text-decoration: underline;
+  color: #006FB3
 }

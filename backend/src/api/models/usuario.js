@@ -8,7 +8,7 @@ const usuarioSchema = new Schema(
 		apellido: String,
 		email: String,
 		contrasena: String,
-		rol: String,
+		rol: {type: String, enum: ["admin", "encargado", "oficinista", "solicitante"], default: "solicitante"},
 	},
 	{
 		timestamps: true,

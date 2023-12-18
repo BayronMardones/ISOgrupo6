@@ -16,9 +16,7 @@ const agendaSchema = new Schema(
 	{
 		solicitud: { type: Schema.Types.ObjectId, ref: "Solicitud" }, // Referencia a la solicitud
 		encargadoVisita: { type: Schema.Types.ObjectId, ref: "Usuario" }, // Referencia al encargado de visita
-		estadoAgenda: String,
-		feedback: String,
-		adjuntos: [String],
+		estadoAgenda: { type: Boolean, default: true },
 		fecha: { type: String, default: fechaFormateada },
 		
 	},
