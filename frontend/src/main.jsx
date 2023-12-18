@@ -9,11 +9,14 @@ import {
 	createBrowserRouter,
 	RouterProvider,
 	Navigate,
+  Link,
 } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { SidebarProvider } from "./context/SideBarContext";
 import SolicitudDetails from "./pages/SolicitudDetails";
 import Solicitudes from "./pages/Solicitudes";
+import Usuarios from "./pages/usuarios";
+
 
 const PrivateRoute = ({ element }) => {
 	const { isAuthenticated } = useAuth();
@@ -45,7 +48,11 @@ const Router = createBrowserRouter([
   {
     path: "/solicitudes",
     element: <PrivateRoute element={<Solicitudes/>} />,
-  }
+  },
+  {
+    path: "/Usuarios",
+    element: <PrivateRoute element={<Usuarios/>} />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

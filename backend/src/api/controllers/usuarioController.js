@@ -28,6 +28,12 @@ const crearUsuario = async (req, res) => {
 			  .status(400)
 			  .json({ message: "El RUT ingresado no es válido, debes seguir el formato xxxxxxxx-x" });
 		  }
+		  if (req.body.rut.length  >10) {
+			return res
+			  .status(400)
+			  .json({ message: "El RUT ingresado debe tener 12 caracteres" });
+		  }
+	  
 		// Busca en la base de datos si existe algun usuario con el mismo rut
 		const usuarioExistente = await Usuario.findOne({ rut: req.body.rut });
 		// Si existe un usuario con el mismo rut, devolver un error
@@ -37,6 +43,7 @@ const crearUsuario = async (req, res) => {
 				.json({ message: "Ya existe un usuario con el mismo rut" });
 		}
 		const nuevoUsuario = new Usuario(req.body);
+		const usuario = await nuevoUsuario.save();
 		return res.status(201).send("Usuario creado exitosamente");
 	} catch (err) {
 		console.error("Error al crear un usuario:", err);
