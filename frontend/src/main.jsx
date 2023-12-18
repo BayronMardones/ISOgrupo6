@@ -5,10 +5,12 @@ import Home from "./pages/home";
 import Login from "./pages/login";
 import NotFound from "./pages/notFound";
 import Agenda from "./pages/Agenda";
+import AgendaTabla from "./pages/AgendaTabla";
+import ActualizaAgenda from "./pages/ActualizaAgenda";
 import {
-	createBrowserRouter,
-	RouterProvider,
-	Navigate,
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
   Link,
 } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
@@ -43,7 +45,15 @@ const Router = createBrowserRouter([
   },
   {
     path: "/feedback/:id",
-    element: <PrivateRoute element={<SolicitudDetails/>} />,
+    element: <PrivateRoute element={<SolicitudDetails />} />,
+  },
+  {
+    path: "/agendatabla",
+    element: <PrivateRoute element={<AgendaTabla />} />,
+  },
+  {
+    path: "/agenda/actualizar/:id",
+    element: <PrivateRoute element={<ActualizaAgenda />} />,
   },
   {
     path: "/solicitudes",
@@ -56,11 +66,11 @@ const Router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-	<AuthProvider>
-		<SidebarProvider>
-			<RouterProvider router={Router} />
-		</SidebarProvider>
-	</AuthProvider>
+    <AuthProvider>
+      <SidebarProvider>
+        <RouterProvider router={Router} />
+      </SidebarProvider>
+    </AuthProvider>
 );
 
 export default Router;

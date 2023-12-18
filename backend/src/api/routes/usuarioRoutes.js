@@ -11,5 +11,6 @@ router.put("/:id", checkUserRole(["admin", "oficinista"]), usuarioController.act
 router.delete("/:id", checkUserRole(["admin", "oficinista"]), usuarioController.eliminarUsuarioPorID);
 router.post("/buscarsolicitud", checkUserRole(["solicitante"]),usuarioController.obtenerSolicitud);
 router.post("/modificar",checkUserRole(["admin"]), usuarioController.ModificarRol);
+router.get('/rol/:rol',checkUserRole(["admin"]), usuarioController.listarUsuariosPorRol);
 
 export default router;

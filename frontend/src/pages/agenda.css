@@ -1,0 +1,37 @@
+/* table {
+    border-spacing: 0 30px; 
+}
+
+td, th {
+    padding: 0 20px; 
+} */
+
+.miTabla th {
+    color: #006FB3; /* Cambia esto al color que desees */
+}
+
+.agenda-container th{
+    color: #006FB3; /* Cambia esto al color que desees */
+
+}
+
+.ActualizaAgenda td, th{
+    color: #006FB3; /* Cambia esto al color que desees */
+}
+
+table {
+    border-collapse: collapse; /* Esto asegura que los bordes de las celdas se fusionen en una sola línea */
+}
+
+td, th {
+    border: 1px solid #000000; /* Esto agrega un borde a cada celda */
+	padding: 0 20px; 
+}
+
+tr:nth-child(even) {
+    background-color: #fe9a9a; /* Cambia esto al color que desees para las filas pares */
+}
+
+tr:nth-child(odd) {
+    background-color: #ffffff; /* Cambia esto al color que desees para las filas impares */
+}

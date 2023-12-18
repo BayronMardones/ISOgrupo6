@@ -1,28 +1,44 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useAuth } from "../context/AuthContext";
-import "../index.css";
+import { Link } from 'react-router-dom';
+import "./agenda.css";
 
-const Agenda = () => {  
+const Agenda = () => {
     const [agendaData, setAgendaData] = useState([]);
     const [userData, setUserData] = useState({});
     const [solicitudData, setSolicitudData] = useState({});
     const [newAgenda, setNewAgenda] = useState({ solicitud: '', encargadoVisita: '', fecha: '' });
+    const [usuarios, setUsuarios] = useState([]);
     const apiUrl = import.meta.env.VITE_API_URL;
     const { token } = useAuth();
-    
+
+    //CREAR AGENDA NUEVA
     const handleInputChange = (event) => {
         setNewAgenda({ ...newAgenda, [event.target.name]: event.target.value });
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        // Concatena la fecha y la hora en una sola cadena
+        const fechaYHora = `${newAgenda.fecha}T${newAgenda.hora}:00`;
+        // Crea una copia de newAgenda y reemplaza el campo de fecha con fechaYHora
+        const newAgendaConFechaYHora = { ...newAgenda, fecha: fechaYHora };
+        // console.log("fechaYHora: ", fechaYHora);
+        // console.log("fecha: ", newAgenda.fecha);
+        // console.log("Hora: ", newAgenda.hora);
+
         const response = await fetch(`${apiUrl}/agenda/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': token,
             },
-            body: JSON.stringify(newAgenda),
+            body: JSON.stringify(newAgendaConFechaYHora),
+            // body: JSON.stringify({
+            //     ...newAgenda,
+            //     fecha: new Date(fechaYHora).toISOString(), // Convierte la fecha y la hora en un objeto Date
+            // }),
         });
 
         if (response.ok) {
@@ -32,10 +48,8 @@ const Agenda = () => {
             console.log(data);
             console.log(agendaData);
         }
-        
-               
     };
-
+    //ELIMINAR AGENDA
     const handleDelete = async (id) => {
         const response = await fetch(`${apiUrl}/agenda/${id}`, {
             method: 'DELETE',
@@ -50,6 +64,7 @@ const Agenda = () => {
         }
     };
 
+    //OBTENER AGENDA
     useEffect(() => {
         const getAgenda = async () => {
             try {
@@ -59,7 +74,7 @@ const Agenda = () => {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
-                        'Authorization': token, 
+                        'Authorization': token,
                     },
                 });
 
@@ -83,6 +98,7 @@ const Agenda = () => {
             }
         };
 
+        //OBTENER DATOS DEL USUARIO A MOSTRAR EN LA AGENDA
         const fetchUserData = async (id) => {
             const response = await fetch(`${apiUrl}/usuario/${id}`, {
                 method: 'GET',
@@ -95,14 +111,15 @@ const Agenda = () => {
             if (response.ok) {
                 const data = await response.json();
                 // setUserData(data)
-                setUserData(prevUserData => ({ ...prevUserData, [id]: data}));
+                setUserData(prevUserData => ({ ...prevUserData, [id]: data }));
                 // console.log("nombre de usuario: ", data.nombre);
                 console.log("id de usuario: ", data._id);
             }
 
-            
+
         };
 
+        //OBTENER DATOS DE LA SOLICITUD A MOSTRAR EN LA AGENDA
         const fetchSolicitudData = async (id) => {
             const response = await fetch(`${apiUrl}/solicitud/buscar/${id}`, {
                 method: 'GET',
@@ -117,7 +134,18 @@ const Agenda = () => {
                 setSolicitudData(prevSolicitudData => ({ ...prevSolicitudData, [id]: data }));
             }
         };
-    
+
+        const fetchUsuarios = async () => {
+            const response = await fetch(`${apiUrl}/usuario/rol/encargado`, {
+                headers: {
+                    'Authorization': token,
+                },
+            });
+            const data = await response.json();
+            setUsuarios(data);
+        };
+
+        fetchUsuarios();
         getAgenda();
     }, [token, apiUrl]);
 
@@ -126,9 +154,25 @@ const Agenda = () => {
             <div className="agenda">
                 <h1>AGENDA</h1>
                 <form onSubmit={handleSubmit}>
-                    <input type="text" name="encargadoVisita" value={newAgenda.encargadoVisita} onChange={handleInputChange} placeholder="Encargado Visita" required />
+                    <select name="encargadoVisita" value={newAgenda.encargadoVisita} onChange={handleInputChange} required>
+                        {usuarios.map((usuario) => (
+                            <option key={usuario._id} value={usuario._id}>{usuario.nombre}</option>
+                        ))}
+                    </select>
+                    {/* <input type="text" name="encargadoVisita" value={newAgenda.encargadoVisita} onChange={handleInputChange} placeholder="Encargado Visita" required /> */}
                     <input type="text" name="solicitud" value={newAgenda.solicitud} onChange={handleInputChange} placeholder="Solicitud" required />
                     <input type="date" name="fecha" value={newAgenda.fecha} onChange={handleInputChange} required />
+                    {/* <input type="time" name="hora" value={newAgenda.hora} onChange={handleInputChange} required /> */}
+                    <select name="hora" value={newAgenda.hora} onChange={handleInputChange} required>
+                        <option value="">--Seleccione la hora--</option>
+                        <option value="08:00">08:00</option>
+                        <option value="09:00">09:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="11:00">11:00</option>
+                        <option value="12:00">12:00</option>
+                        <option value="13:00">13:00</option>
+                        <option value="14:00">14:00</option>
+                    </select>
                     <button type="submit">Crear entrada de agenda</button>
                 </form>
                 <table>
@@ -139,6 +183,7 @@ const Agenda = () => {
                             <th>rut encargado</th>
                             <th>Solicitud</th>
                             <th>Fecha</th>
+                            <th>Hora</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -147,17 +192,24 @@ const Agenda = () => {
                                 <td>{agenda._id}</td>
                                 <td>{userData[agenda.encargadoVisita]?._id}</td>
                                 <td>{userData[agenda.encargadoVisita]?.rut}</td>
-                                <td>{solicitudData[agenda.solicitud]?._id}</td>
+                                <td>{solicitudData[agenda.solicitud]?.estado}</td>
                                 <td>{agenda.fecha}</td>
+                                <td>{new Date(agenda.fecha).toLocaleDateString()}</td>
+                                <td>{new Date(agenda.fecha).toISOString().split('T')[1].substring(0, 8)}</td>
                                 <td>
-                                    <button onClick={() => handleDelete(agenda._id)}>Eliminar</button>
+                                    <button onClick={() => handleDelete(agenda._id)}>Eliminar Agenda</button>
+                                </td>
+                                <td>
+                                    <Link to={`/agenda/actualizar/${agenda._id}`}>
+                                        <button>Actualizar Agenda</button>
+                                    </Link>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
-        </div>       
+        </div>
     );
 };
 
