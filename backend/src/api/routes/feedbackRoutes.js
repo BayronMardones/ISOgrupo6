@@ -17,7 +17,7 @@ router.put('/:solicitud/:feedbackId', checkUserRole(['encargado']), feedbackCont
 router.delete('/:solicitud/:feedbackId', checkUserRole(['encargado']), feedbackController.deleteFeedback);
 
 //archivos de feedback solo pueden ser subidos por el encargado
-router.post("/:solicitud/:archivo", checkUserRole(["encargado"]), upload.array('archivos'),fileSize, fileController.uploadFeedbackFile);
+router.post("/:solicitud/:archivo", checkUserRole(["encargado"]), upload.array('feedbackFile'),fileSize, fileController.uploadFeedbackFile);
 router.get('/files/:solicitud', checkUserRole(["admin","encargado"]),fileController.getFeedbackFiles);
 router.get('/file/download/:solicitud/:feedbackId/:fileId', checkUserRole(["admin", "oficinista", "encargado"]),fileController.getSpecificFeedbackFile);
 router.delete('/file/delete/:solicitud/:feedbackId/:fileId', checkUserRole(["encargado"]),fileController.deleteFeedbackFile);

@@ -5,6 +5,7 @@ import FeedbackForm from "../components/FeedbackForm";
 import FeedbackList from "../components/FeedbackList";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
+import FeedbackImageList from "../components/FeedbackFiles";
 import { useSidebar } from "../context/SideBarContext";
 
 const SolicitudDetails = () => {
@@ -30,6 +31,7 @@ const SolicitudDetails = () => {
 
 			<FeedbackList solicitudId={id} onFeedbackDeleted={handleFeedbackDeleted}/>
 			<FeedbackForm solicitudId={id} onFeedbackAdded={handleFeedbackAdded} />
+			<FeedbackImageList solicitudId={id} />
 		</div>
 	);
 };
