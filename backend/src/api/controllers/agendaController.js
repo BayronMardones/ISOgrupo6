@@ -44,7 +44,9 @@ const crearEntradaAgenda = async (req, res) => {
 		const encargadoExistente = await Usuario.findById(encargadoVisita);
 		// Verifica si la solicitud existe
 		const solicitudExistente = await Solicitud.findById(solicitud);
-		
+		// Extrae la hora de fechaObj
+		const hora = fechaObj.getUTCHours();
+
 		if (!encargadoExistente) {
 			return res.status(400).json({
 				message: "El encargado de la visita no existe.",
@@ -63,7 +65,14 @@ const crearEntradaAgenda = async (req, res) => {
 				message: "No se puede agendar una fecha anterior a la actual.",
 			});
 		}
-		
+
+		// Verifica si la hora está fuera del rango permitido
+		if (hora < 8 || hora > 14) {
+			return res.status(400).json({
+				message: "Solo se puede crear una entrada entre las 08:00 y las 14:00.",
+			});
+		}
+
 		// Verifica si ya existe una entrada de agenda para la misma fecha
 		//const entradaExistente = await Agenda.findOne({ fecha, encargadoVisita });
 

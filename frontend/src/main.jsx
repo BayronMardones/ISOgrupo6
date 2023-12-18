@@ -5,8 +5,10 @@ import Home from "./pages/home";
 import Login from "./pages/login";
 import NotFound from "./pages/notFound";
 import Agenda from "./pages/Agenda";
+import AgendaTabla from "./pages/AgendaTabla";
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import { ChakraProvider } from "@chakra-ui/react";
 
 const PrivateRoute = ({ element }) => {
   const { isAuthenticated } = useAuth();
@@ -34,12 +36,18 @@ const Router = createBrowserRouter([
     path: "/agenda",
     element: <PrivateRoute element={<Agenda />} />,
   },
+  {
+    path: "/agendatabla",
+    element: <PrivateRoute element={<AgendaTabla />} />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <AuthProvider>
-    <RouterProvider router={Router} />
-  </AuthProvider>
+  <ChakraProvider>
+    <AuthProvider>
+      <RouterProvider router={Router} />
+    </AuthProvider>
+  </ChakraProvider>
 );
 
 export default Router;
