@@ -1,8 +1,8 @@
+// EstadoSolicitudes.js
 import React, { useState } from "react";
 import axios from "axios";
 
-const ObtenerEstadoPorRut = () => {
-  const [rut, setRut] = useState("");
+const EstadoSolicitudes = ({ rut }) => {
   const [estadoSolicitudes, setEstadoSolicitudes] = useState([]);
 
   const obtenerEstado = async () => {
@@ -18,13 +18,6 @@ const ObtenerEstadoPorRut = () => {
 
   return (
     <div>
-      <label htmlFor="rut">Ingrese el Rut del solicitante: </label>
-      <input
-        type="text"
-        id="rut"
-        value={rut}
-        onChange={(e) => setRut(e.target.value)}
-      />
       <button onClick={obtenerEstado}>Obtener Estado</button>
 
       <h2>Estado de las Solicitudes</h2>
@@ -40,4 +33,4 @@ const ObtenerEstadoPorRut = () => {
   );
 };
 
-export default ObtenerEstadoPorRut;;
+export default EstadoSolicitudes;
