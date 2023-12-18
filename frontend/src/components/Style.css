@@ -67,7 +67,7 @@ button {
 .logout-button:hover,
 .logout-button:hover button {
 	border-color: #646cff;
-	color: #646cff;
+	color: #000000;
 }
 
 /* Estilos para el botón de home */
@@ -117,6 +117,15 @@ button {
 
 .sidebar.open {
 	width: 250px;
+}
+
+.sidebar-link {
+	text-decoration: none;
+	color: #fff;
+}
+
+.sidebar-link:hover {
+	color: #fe6565;
 }
 
 .toggle-button {
@@ -230,4 +239,48 @@ button {
 	border: none;
 	padding: 4px 5px;
 	cursor: pointer;
+}
+
+.img-feedback {
+	width: 100%;
+	height: 200px;
+	object-fit: contain;
+	border-radius: 10px;
+}
+
+.solicitud-details {
+	display: flex;
+	flex-direction: column;
+	color: #000;
+}
+
+
+/* Estilos originales de .solicitud-card */
+.solicitud-card {
+	border: #000000 1px solid;
+	padding: 5px 10px;
+	border-radius: 10px;
+	margin-bottom: 10px;
+	color: #000;
+	transition: all 0.1s ease;
+}
+
+.solicitud-card:hover {
+	background-color: #006fb3;
+	cursor: pointer;
+	color: #fff;
+}
+
+/* Estilos originales de .solicitud-card button */
+.delete-button-solicitud {
+	background-color: #fe6565;
+	color: #fff;
+	border: none;
+	padding: 4px 5px;
+	cursor: pointer;
+	transition: all 0.1s ease;
+}
+
+.delete-button-solicitud:hover {
+	padding: 4px 20px;
 }

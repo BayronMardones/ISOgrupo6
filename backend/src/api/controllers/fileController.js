@@ -146,8 +146,11 @@ const getFeedbackFiles = async (req, res) => {
 				.map((feedback) => feedback._id),
 		},
 	});
+
+
 	return res.status(200).send(archivosAdjuntosFeedback);
 };
+
 
 const getSpecificFeedbackFile = async (req, res) => {
 	// Obtener el id de la solicitud y del feedback
@@ -213,6 +216,8 @@ const deleteFeedbackFile = async (req, res) => {
 	return res.status(200).send({ message: "Archivo eliminado correctamente." });
 };
 
+
+
 export default {
 	uploadfile,
 	getFiles,
@@ -223,4 +228,5 @@ export default {
 	getFeedbackFiles,
 	getSpecificFeedbackFile,
 	deleteFeedbackFile,
+
 };

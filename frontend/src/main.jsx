@@ -15,13 +15,11 @@ import {
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { SidebarProvider } from "./context/SideBarContext";
 import SolicitudDetails from "./pages/SolicitudDetails";
+import Solicitudes from "./pages/Solicitudes";
 
 const PrivateRoute = ({ element }) => {
-  const { isAuthenticated } = useAuth();
-
-  console.log(isAuthenticated);
-
-  return isAuthenticated ? element : <Navigate to="/" />;
+	const { isAuthenticated } = useAuth();
+	return isAuthenticated ? element : <Navigate to="/" />;
 };
 
 const Router = createBrowserRouter([
@@ -54,6 +52,10 @@ const Router = createBrowserRouter([
     path: "/agenda/actualizar/:id",
     element: <PrivateRoute element={<ActualizaAgenda />} />,
   },
+  {
+    path: "/solicitudes",
+    element: <PrivateRoute element={<Solicitudes/>} />,
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

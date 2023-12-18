@@ -6,7 +6,7 @@ const router = Router();
 
 router.get("/", checkUserRole(["admin", "oficinista"]), usuarioController.listarUsuarios);
 router.post("/", checkUserRole(["admin", "oficinista"]), usuarioController.crearUsuario);
-router.get("/:id", checkUserRole(["admin", "oficinista"]), usuarioController.buscarUsuarioPorID);
+router.get("/:id", checkUserRole(["admin", "oficinista", "encargado"]), usuarioController.buscarUsuarioPorID);
 router.put("/:id", checkUserRole(["admin", "oficinista"]), usuarioController.actualizarUsuarioPorID);
 router.delete("/:id", checkUserRole(["admin", "oficinista"]), usuarioController.eliminarUsuarioPorID);
 router.post("/buscarsolicitud", checkUserRole(["solicitante"]),usuarioController.obtenerSolicitud);

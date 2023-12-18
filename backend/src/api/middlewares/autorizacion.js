@@ -2,6 +2,7 @@
 import jwt from "jsonwebtoken";
 import usuario from "../models/usuario.js";
 
+
 // Middleware para verificar roles de usuario
 const checkUserRole = (roles) => {
 	return (req, res, next) => {
