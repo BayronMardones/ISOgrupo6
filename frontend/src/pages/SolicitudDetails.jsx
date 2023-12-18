@@ -27,7 +27,6 @@ const SolicitudDetails = () => {
 		<div className={`page-content ${isSidebarOpen ? "sidebar-open" : ""}`}>
 			<Navbar />
 			<Sidebar />
-			<h2 className="feedback-title">Detalles de la Solicitud</h2>
 			<SolicitudDetalle solicitudId={id}/>
 			<FeedbackList solicitudId={id} onFeedbackDeleted={handleFeedbackDeleted}/>
 			<FeedbackForm solicitudId={id} onFeedbackAdded={handleFeedbackAdded} />

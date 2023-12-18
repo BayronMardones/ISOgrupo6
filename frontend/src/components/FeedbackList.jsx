@@ -77,7 +77,6 @@ const FeedbackList = ({ solicitudId }) => {
 
     return (
         <div className="feedback-container">
-            <h3>Feedback</h3>
             <div className="feedback">
                 <div>
                     <h2>Comentarios</h2>

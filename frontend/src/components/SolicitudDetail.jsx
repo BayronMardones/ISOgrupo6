@@ -48,7 +48,6 @@ const SolicitudDetalle = (solicitudId) => {
 
 	return (
 		<div className="solicitud-details">
-			<h2>Detalle de la Solicitud</h2>
 			<p>ID de Solicitud: {solicitud._id}</p>
             <p>Solicitante: {solicitud.solicitante}</p>
             <p>Estado: {solicitud.estado}</p>
