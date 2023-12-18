@@ -2,8 +2,13 @@ import React, { useState, useEffect, useContext } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Link } from 'react-router-dom';
 import "./agenda.css";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
+import { useSidebar } from "../context/SideBarContext";
+
 
 const Agenda = () => {
+    const { isSidebarOpen } = useSidebar();
     const [agendaData, setAgendaData] = useState([]);
     const [userData, setUserData] = useState({});
     const [solicitudData, setSolicitudData] = useState({});
@@ -150,64 +155,69 @@ const Agenda = () => {
     }, [token, apiUrl]);
 
     return (
-        <div className="agenda-container">
-            <div className="agenda">
-                <h1>AGENDA</h1>
-                <form onSubmit={handleSubmit}>
-                    <select name="encargadoVisita" value={newAgenda.encargadoVisita} onChange={handleInputChange} required>
-                        {usuarios.map((usuario) => (
-                            <option key={usuario._id} value={usuario._id}>{usuario.nombre}</option>
-                        ))}
-                    </select>
-                    {/* <input type="text" name="encargadoVisita" value={newAgenda.encargadoVisita} onChange={handleInputChange} placeholder="Encargado Visita" required /> */}
-                    <input type="text" name="solicitud" value={newAgenda.solicitud} onChange={handleInputChange} placeholder="Solicitud" required />
-                    <input type="date" name="fecha" value={newAgenda.fecha} onChange={handleInputChange} required />
-                    {/* <input type="time" name="hora" value={newAgenda.hora} onChange={handleInputChange} required /> */}
-                    <select name="hora" value={newAgenda.hora} onChange={handleInputChange} required>
-                        <option value="">--Seleccione la hora--</option>
-                        <option value="08:00">08:00</option>
-                        <option value="09:00">09:00</option>
-                        <option value="10:00">10:00</option>
-                        <option value="11:00">11:00</option>
-                        <option value="12:00">12:00</option>
-                        <option value="13:00">13:00</option>
-                        <option value="14:00">14:00</option>
-                    </select>
-                    <button type="submit">Crear entrada de agenda</button>
-                </form>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Encargado Visita id</th>
-                            <th>rut encargado</th>
-                            <th>Solicitud</th>
-                            <th>Fecha</th>
-                            <th>Hora</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {agendaData.map((agenda) => (
-                            <tr key={agenda._id}>
-                                <td>{agenda._id}</td>
-                                <td>{userData[agenda.encargadoVisita]?._id}</td>
-                                <td>{userData[agenda.encargadoVisita]?.rut}</td>
-                                <td>{solicitudData[agenda.solicitud]?.estado}</td>
-                                <td>{agenda.fecha}</td>
-                                <td>{new Date(agenda.fecha).toLocaleDateString()}</td>
-                                <td>{new Date(agenda.fecha).toISOString().split('T')[1].substring(0, 8)}</td>
-                                <td>
-                                    <button onClick={() => handleDelete(agenda._id)}>Eliminar Agenda</button>
-                                </td>
-                                <td>
-                                    <Link to={`/agenda/actualizar/${agenda._id}`}>
-                                        <button>Actualizar Agenda</button>
-                                    </Link>
-                                </td>
+        <div className={`page-content ${isSidebarOpen ? "sidebar-open" : ""}`}>
+            <Navbar />
+            <Sidebar />
+
+            <div className="agenda-container">
+                <div className="agenda">
+                    <h1>AGENDA</h1>
+                    <form onSubmit={handleSubmit}>
+                        <select name="encargadoVisita" value={newAgenda.encargadoVisita} onChange={handleInputChange} required>
+                            {usuarios.map((usuario) => (
+                                <option key={usuario._id} value={usuario._id}>{usuario.nombre}</option>
+                            ))}
+                        </select>
+                        {/* <input type="text" name="encargadoVisita" value={newAgenda.encargadoVisita} onChange={handleInputChange} placeholder="Encargado Visita" required /> */}
+                        <input type="text" name="solicitud" value={newAgenda.solicitud} onChange={handleInputChange} placeholder="Solicitud" required />
+                        <input type="date" name="fecha" value={newAgenda.fecha} onChange={handleInputChange} required />
+                        {/* <input type="time" name="hora" value={newAgenda.hora} onChange={handleInputChange} required /> */}
+                        <select name="hora" value={newAgenda.hora} onChange={handleInputChange} required>
+                            <option value="">--Seleccione la hora--</option>
+                            <option value="08:00">08:00</option>
+                            <option value="09:00">09:00</option>
+                            <option value="10:00">10:00</option>
+                            <option value="11:00">11:00</option>
+                            <option value="12:00">12:00</option>
+                            <option value="13:00">13:00</option>
+                            <option value="14:00">14:00</option>
+                        </select>
+                        <button type="submit">Crear entrada de agenda</button>
+                    </form>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Encargado Visita id</th>
+                                <th>rut encargado</th>
+                                <th>Solicitud</th>
+                                <th>Fecha</th>
+                                <th>Hora</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {agendaData.map((agenda) => (
+                                <tr key={agenda._id}>
+                                    <td>{agenda._id}</td>
+                                    <td>{userData[agenda.encargadoVisita]?._id}</td>
+                                    <td>{userData[agenda.encargadoVisita]?.rut}</td>
+                                    <td>{solicitudData[agenda.solicitud]?.estado}</td>
+                                    <td>{agenda.fecha}</td>
+                                    <td>{new Date(agenda.fecha).toLocaleDateString()}</td>
+                                    <td>{new Date(agenda.fecha).toISOString().split('T')[1].substring(0, 8)}</td>
+                                    <td>
+                                        <button onClick={() => handleDelete(agenda._id)}>Eliminar Agenda</button>
+                                    </td>
+                                    <td>
+                                        <Link to={`/agenda/actualizar/${agenda._id}`}>
+                                            <button>Actualizar Agenda</button>
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );
