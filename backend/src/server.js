@@ -29,8 +29,9 @@ app.use("/api/agenda", checkUserRole(["admin", "encargado", "oficinista"]), agen
 app.use("/api/solicitud", solicitudRoutes);
 app.use("/api/usuario", checkUserRole(["admin", "encargado", "oficinista"]), usuarioRoutes);
 app.use("/api/login" , loginRoutes);
-app.use("/api/feedback", checkUserRole(["admin", "encargado"]), feedbackRoutes);
+app.use("/api/feedback", feedbackRoutes);
 app.use("/api/", filesRoutes);
+
 
 
 app.get("/", (req, res) => {
