@@ -22,7 +22,6 @@ const FeedbackImageList = ({ solicitudId }) => {
             );
 
             setFeedbackFiles(response.data);
-            console.log(response.data);
         } catch (error) {
             console.error("Error al obtener archivos de feedback:", error);
             setError("Error al cargar las imágenes de feedback.");

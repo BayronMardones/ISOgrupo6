@@ -6,3 +6,17 @@
 .page-content.sidebar-open {
 	margin-left: 250px;
 }
+
+.solicitudes {
+	margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+	color: black;
+}
+
+.solicitudes-title {
+	font-size: 1.4em;
+	font-weight: bold;
+	margin-top: 50px;
+
+}

@@ -7,6 +7,7 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import FeedbackImageList from "../components/FeedbackFiles";
 import { useSidebar } from "../context/SideBarContext";
+import SolicitudDetalle from "../components/SolicitudDetail";
 
 const SolicitudDetails = () => {
 	const { id } = useParams(); // Use useParams to get parameters from the URL
@@ -26,9 +27,8 @@ const SolicitudDetails = () => {
 		<div className={`page-content ${isSidebarOpen ? "sidebar-open" : ""}`}>
 			<Navbar />
 			<Sidebar />
-			<h2>Detalles de la Solicitud</h2>
-			{/* Muestra detalles de la solicitud según tus necesidades */}
-
+			<h2 className="feedback-title">Detalles de la Solicitud</h2>
+			<SolicitudDetalle solicitudId={id}/>
 			<FeedbackList solicitudId={id} onFeedbackDeleted={handleFeedbackDeleted}/>
 			<FeedbackForm solicitudId={id} onFeedbackAdded={handleFeedbackAdded} />
 			<FeedbackImageList solicitudId={id} />
