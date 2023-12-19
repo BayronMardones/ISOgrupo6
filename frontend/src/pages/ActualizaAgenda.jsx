@@ -39,9 +39,6 @@ const ActualizaAgenda = () => {
         fetchAgenda();
     }, [id, token, apiUrl]);
 
-    console.log("esta es la agenda:", agenda);
-    console.log("este es el id:", id);
-
     const updateAgenda = async (updatedAgenda) => {
         try {
             const response = await fetch(`${apiUrl}/agenda/${id}`, {
