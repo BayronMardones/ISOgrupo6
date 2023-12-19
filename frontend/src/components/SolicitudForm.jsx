@@ -10,8 +10,7 @@ const SolicitudForm = ({ onSubmit }) => {
   const apiUrl = import.meta.env.VITE_API_URL;
 
   const onSubmitSolicitud = async (data) => {
-    const files = data.currentTarget.files;
-    console.log(files)
+    
     try {
       const res = await axios.post(`${apiUrl}/solicitud/crearANoFile`, data, {
         headers: {
@@ -21,9 +20,9 @@ const SolicitudForm = ({ onSubmit }) => {
       });
       // Subida de archivos
 
-      let filesdata = {};
+      /*const filesdata = {};
       Array.from(files).forEach(file  => {
-        resfiles = axios.post(`${apiUrl}/file/${res.data._id}/${file.name}`, file, {
+        resfiles = axios.post(`${apiUrl}/file/${res.data._id}/${file.name}`, data, {
           headers: {
             "Content-Type": "application/json",
             Authorization: token,
@@ -33,7 +32,7 @@ const SolicitudForm = ({ onSubmit }) => {
           ...filesdata,
           resfiles
         }
-      })
+      })*/
 
      // fetchSolicitudes();
       onSubmit();
