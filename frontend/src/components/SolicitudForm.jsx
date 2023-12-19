@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
@@ -8,36 +8,67 @@ const SolicitudForm = ({ onSubmit }) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const { token } = useAuth();
   const apiUrl = import.meta.env.VITE_API_URL;
-  const [archivosSeleccionados, setArchivosSeleccionados] = useState([]);
-  const fileInputRef = useRef(null);
-
-  const handleFileChange = (event) => {
-    setArchivosSeleccionados(event.target.files);
-  };
 
   const onSubmitSolicitud = async (data) => {
-    const formData = new FormData();
-    data.archivosAdjuntos = archivosSeleccionados;
-    for (const archivo of data.archivosAdjuntos) {
-      formData.append("archivos", archivo);
-    }
-    delete data.archivosAdjuntos; // No enviamos el array vacío
-
+    const files = data.currentTarget.files;
+    console.log(files)
     try {
-        await axios.post(`${apiUrl}/solicitud/crear ${solicitudId}`, data, {
+      const res = await axios.post(`${apiUrl}/solicitud/crearANoFile`, data, {
         headers: {
+          "Content-Type": "application/json",
           Authorization: token,
-          "Content-Type": "apllication/json",
         },
       });
+      // Subida de archivos
+
+      let filesdata = {};
+      Array.from(files).forEach(file  => {
+        resfiles = axios.post(`${apiUrl}/file/${res.data._id}/${file.name}`, file, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        })
+        filesdata = {
+          ...filesdata,
+          resfiles
+        }
+      })
+
+     // fetchSolicitudes();
       onSubmit();
+
+      /*if(data.archivosAdjuntos) {
+        await axios.post(`${apiUrl}/solicitud/crearA`, data, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+            
+          },
+        });
+        fetchSolicitudes();
+        onSubmit();
+      } else {
+        await axios.post(`${apiUrl}/solicitud/crearANoFile`, data, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+            
+          },
+        });
+        fetchSolicitudes();
+        onSubmit();
+      }*/
+      
     } catch (error) {
-      console.error("Error al crear la solicitud:", error);
+      console.error("Error al crear la solicitud:", error.response?.data);
     }
   };
+  
+  
 
   useEffect(() => {
-    fileInputRef.current.value = "";
+    // Any cleanup or side effect you want to perform on submit
   }, [onSubmit]);
 
   return (
@@ -55,24 +86,29 @@ const SolicitudForm = ({ onSubmit }) => {
         )}
       </div>
       <div className="field">
-            <label htmlFor="detalles">Detalles:</label>
-            <textarea
-                {...register("detalles", { required: true })}
-                id="detalles"
-            />
-            {errors.descripcion && (
-                <span className="error">{errors.descripcion.message}</span>
-            )}
-        </div>
+        <label htmlFor="detalles">Detalles:</label>
+        <textarea
+          {...register("detalles", { required: true })}
+          id="detalles"
+        />
+        {errors.descripcion && (
+          <span className="error">{errors.descripcion.message}</span>
+        )}
+      </div>
       <div className="field">
         <label htmlFor="estado">Estado:</label>
         <select
           {...register("estado", { required: true })}
           id="estado"
         >
-          {/* Opciones de estado según tu modelo */}
+          <option value="">Selecciona un estado</option>
+          <option value="pendiente">Pendiente</option>
+          <option value="aprobado">Aprobado</option>
+          <option value="rechazado">Rechazado</option>
         </select>
-        {errors.estado && <span className="error">{errors.estado.message}</span>}
+        {errors.estado && (
+          <span className="error">{errors.estado.message}</span>
+        )}
       </div>
       <div className="field">
         <label htmlFor="direccion">Dirección:</label>
@@ -100,28 +136,20 @@ const SolicitudForm = ({ onSubmit }) => {
           <span className="error">{errors.direccion.message}</span>
         )}
       </div>
+      {/* Removed the file input and related code */}
       <div className="field">
-        <label htmlFor="archivos">Archivos adjuntos:</label>
+        <label htmlFor="archivosAdjuntos">Archivos Adjuntos:</label>
         <input
           type="file"
-          multiple
-          id="archivos"
-          ref={ fileInputRef }
-            onChange={ handleFileChange }
+          {...register("archivosAdjuntos")}
+          id="archivosAdjuntos"
+          multiple // Permite seleccionar múltiples archivos
         />
-        </div>
-        <div className="field">
-            <label htmlFor="descripcion">Descripción:</label>
-            <textarea
-                {...register("descripcion", { required: true })}
-                id="descripcion"
-            />
-            {errors.descripcion && (
-                <span className="error">{errors.descripcion.message}</span>
-            )}
-        </div>
-        <input type="submit" value="Crear Solicitud" /> 
+      </div>
+
+      <input type="submit" value="Crear Solicitud" />
     </form>
-    );
+  );
 };
+
 export default SolicitudForm;

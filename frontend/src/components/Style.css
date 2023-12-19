@@ -264,3 +264,11 @@ button {
 	background-color: #006fb3;
 	cursor: pointer;
 }
+
+.solicitud-form {
+	display: flex;
+	flex-direction: column;
+	gap: 10px; 
+	margin-bottom: 20px; 
+	color:#000;
+}

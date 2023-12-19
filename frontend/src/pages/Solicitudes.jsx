@@ -5,6 +5,7 @@ import SolicitudCard from "../components/SolicitudCard";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { useSidebar } from "../context/SideBarContext";
+import SolicitudForm from "../components/SolicitudForm";
 
 
 const ListaSolicitudes = () => {
@@ -24,6 +25,7 @@ const ListaSolicitudes = () => {
 						Authorization: token,
 					},
 				});
+				console.log(response)
 				setSolicitudes(response.data);
 				setLoading(false);
 			} catch (error) {
@@ -54,7 +56,10 @@ const ListaSolicitudes = () => {
 					<SolicitudCard key={solicitud._id} solicitud={solicitud} />
 				))}
 			</div>
+			<SolicitudForm/>
+			
 		</div>
+
 	);
 };
 
