@@ -105,6 +105,50 @@ const crearSolicitud = async (req, res) => {
 	}
 };
 
+// Función para crear una nueva solicitud
+const crearSolicitudNoFile = async (req, res) => {
+	console.log("no file")
+	console.log(req.body)
+	const { archivosAdjuntos } = req.body;
+		//verificar que el estado este correcto
+		const estadosPermitidos = ["aprobado", "rechazado", "pendiente"];
+
+		const direccion = {
+			zona: req.body.direccion.zona,
+			calle: req.body.direccion.calle,
+			numero: req.body.direccion.numero,
+		};
+		// Verifica que el estado sea válido
+		if (
+			req.body.estado !== undefined &&
+			!estadosPermitidos.includes(req.body.estado)
+		) {
+			return res.status(400).json({ message: "El estado no es válido." });
+		}
+
+		//Nueva solicitud con los IDs de archivos asociados
+		const nuevaSolicitud = new Solicitud({
+			solicitante: req.body.solicitante,
+			detalles: req.body.detalles,
+			estado: req.body.estado,
+			direccion: direccion,
+			archivosAdjuntos: "", // Se deja en null por falta de archivos
+			feedback: null,
+		});
+		
+	try {
+		// Guarda la solicitud en la base de datos
+		const solicitudGuardada = await nuevaSolicitud.save();
+
+		res.status(201).json(solicitudGuardada);
+	} catch (err) {
+		console.error("Error al crear una solicitud:", err);
+		res
+			.status(500)
+			.json({ message: "Error al crear una solicitud", error: err.message });
+	}
+};
+
 // Función para actualizar una solicitud por su ID
 const actualizarSolicitudPorId = async (req, res) => {
 	try {
@@ -223,4 +267,5 @@ export default {
 	actualizarSolicitudPorId,
 	eliminarSolicitudPorId,
 	modificarEstadoPorId,
+	crearSolicitudNoFile,
 };

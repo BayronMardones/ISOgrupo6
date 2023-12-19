@@ -5,6 +5,7 @@ import SolicitudCard from "../components/SolicitudCard";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { useSidebar } from "../context/SideBarContext";
+import SolicitudForm from "../components/SolicitudForm";
 
 const ListaSolicitudes = () => {
 	const apiUrl = import.meta.env.VITE_API_URL;
@@ -25,6 +26,7 @@ const ListaSolicitudes = () => {
 						Authorization: token,
 					},
 				});
+				console.log(response)
 				setSolicitudes(response.data);
 				setLoading(false);
 			} catch (error) {
@@ -56,7 +58,10 @@ const ListaSolicitudes = () => {
 				))}
 				{/*boton para eliminar una solicitud*/}
 			</div>
+			<SolicitudForm/>
+			
 		</div>
+
 	);
 };
 

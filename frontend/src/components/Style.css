@@ -324,3 +324,10 @@ button {
 	border-radius: 10px;
 	align-self: center;
 }
+.solicitud-form {
+	display: flex;
+	flex-direction: column;
+	gap: 10px; 
+	margin-bottom: 20px; 
+	color:#000;
+}

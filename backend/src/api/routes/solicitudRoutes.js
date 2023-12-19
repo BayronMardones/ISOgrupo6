@@ -6,6 +6,7 @@ const router = Router();
 
 router.get("/listar", checkUserRole(["admin", "oficinista", "encargado"]), solicitudController.listarSolicitudes);
 router.post("/crearA",checkUserRole(["admin", "oficinista", "solicitante"]),solicitudController.crearSolicitud);
+router.post("/crearANoFile",checkUserRole(["admin", "oficinista", "solicitante"]),solicitudController.crearSolicitudNoFile);
 router.get("/buscar/:id", checkUserRole(["admin", "oficinista", "solicitante", "encargado"]),solicitudController.buscarSolicitudPorId);
 router.put("/actualizar/:id",checkUserRole(["admin", "oficinista", "encargado"]), solicitudController.actualizarSolicitudPorId);
 
