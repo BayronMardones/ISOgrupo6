@@ -36,6 +36,11 @@ const SolicitudCard = ({ solicitud }) => {
 					className="delete-button-solicitud">
 					Eliminar
 				</button>
+				<Link to={`/agendar/${_id}`}>
+					<button className="delete-button-solicitud">
+						Agendar
+					</button>
+				</Link>
 			</div>
 		</Link>
 	);

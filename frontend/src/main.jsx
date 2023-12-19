@@ -19,6 +19,7 @@ import SolicitudDetails from "./pages/SolicitudDetails";
 import Solicitudes from "./pages/Solicitudes";
 import Usuarios from "./pages/usuarios";
 
+import Agendar from "./pages/Agendar";
 
 const PrivateRoute = ({ element }) => {
 	const { isAuthenticated } = useAuth();
@@ -58,6 +59,10 @@ const Router = createBrowserRouter([
   {
     path: "/solicitudes",
     element: <PrivateRoute element={<Solicitudes/>} />,
+  },
+  {
+    path: "/agendar/:id",
+    element: <PrivateRoute element={<Agendar/>} />,
   },
   {
     path: "/Usuarios",

@@ -21,7 +21,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                         </NavLink>
                     </p>
                     <p>
-                        <NavLink className="sidebar-link" to="/agenda" onClick={toggleSidebar}>
+                        <NavLink className="sidebar-link" to="/agendatabla" onClick={toggleSidebar}>
                             Agenda
                         </NavLink>
                     </p>
@@ -33,6 +33,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                     <p>
                         <NavLink className="sidebar-link" to="/contacto" onClick={toggleSidebar}>
                             Contacto
+                        </NavLink>
+                    </p>
+                    <p>
+                        <NavLink className="sidebar-link" to="/agenda" onClick={toggleSidebar}>
+                            Agenda Admin
                         </NavLink>
                     </p>
                 </div>

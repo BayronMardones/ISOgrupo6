@@ -1,21 +1,20 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useAuth } from "../context/AuthContext";
-import { Link } from 'react-router-dom';
 import "./agenda.css";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { useSidebar } from "../context/SideBarContext";
-
+import { useParams } from "react-router-dom";
 
 const Agenda = () => {
     const { isSidebarOpen } = useSidebar();
     const [agendaData, setAgendaData] = useState([]);
-    const [userData, setUserData] = useState({});
-    const [solicitudData, setSolicitudData] = useState({});
     const [newAgenda, setNewAgenda] = useState({ solicitud: '', encargadoVisita: '', fecha: '' });
     const [usuarios, setUsuarios] = useState([]);
     const apiUrl = import.meta.env.VITE_API_URL;
     const { token } = useAuth();
+    const { id } = useParams();
+    const [solicitud, setSolicitud] = useState(id);
 
     //CREAR AGENDA NUEVA
     const handleInputChange = (event) => {
@@ -23,50 +22,30 @@ const Agenda = () => {
     };
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
+        event.preventDefault();   
 
         // Concatena la fecha y la hora en una sola cadena
         const fechaYHora = `${newAgenda.fecha}T${newAgenda.hora}:00`;
         // Crea una copia de newAgenda y reemplaza el campo de fecha con fechaYHora
         const newAgendaConFechaYHora = { ...newAgenda, fecha: fechaYHora };
-        // console.log("fechaYHora: ", fechaYHora);
-        // console.log("fecha: ", newAgenda.fecha);
-        // console.log("Hora: ", newAgenda.hora);
+        const data = { ...newAgendaConFechaYHora, solicitud: id };
+        try {
+            const response = await fetch(`${apiUrl}/agenda/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token,
+                },
+                // body: JSON.stringify(newAgendaConFechaYHora),
+                body: JSON.stringify(data),
 
-        const response = await fetch(`${apiUrl}/agenda/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': token,
-            },
-            body: JSON.stringify(newAgendaConFechaYHora),
-            // body: JSON.stringify({
-            //     ...newAgenda,
-            //     fecha: new Date(fechaYHora).toISOString(), // Convierte la fecha y la hora en un objeto Date
-            // }),
-        });
+            });
 
-        if (response.ok) {
-            const data = await response.json();
-            setAgendaData([...agendaData, data]);
-            setNewAgenda({ encargadoVisita: '', solicitud: '', fecha: '' });
-            console.log(data);
-            console.log(agendaData);
+            const result = await response.json();
+        } catch (error) {
+            console.error("Error de red:", error);
         }
-    };
-    //ELIMINAR AGENDA
-    const handleDelete = async (id) => {
-        const response = await fetch(`${apiUrl}/agenda/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': token,
-            },
-        });
 
-        if (response.ok) {
-            setAgendaData(agendaData.filter(agenda => agenda._id !== id));
-        }
     };
 
     //OBTENER AGENDA
@@ -85,18 +64,12 @@ const Agenda = () => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    console.log(data.token);
                     setAgendaData(data);
                     // Obtén los datos del usuario para cada ID de usuario único en los datos de la agenda
                     const userIds = [...new Set(data.map(agenda => agenda.encargadoVisita))];
-                    console.log("userIds: ", userIds);
                     userIds.forEach(id => fetchUserData(id));
-                    const solicitudIds = [...new Set(data.map(agenda => agenda.solicitud))];
-                    solicitudIds.forEach(id => fetchSolicitudData(id));
-
                 } else {
                     console.error("Error en el inicio de sesión");
-                    // Aquí podrías mostrar un mensaje de error al usuario
                 }
             } catch (error) {
                 console.error("Error de red:", error);
@@ -115,29 +88,11 @@ const Agenda = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                // setUserData(data)
-                setUserData(prevUserData => ({ ...prevUserData, [id]: data }));
                 // console.log("nombre de usuario: ", data.nombre);
                 console.log("id de usuario: ", data._id);
             }
 
 
-        };
-
-        //OBTENER DATOS DE LA SOLICITUD A MOSTRAR EN LA AGENDA
-        const fetchSolicitudData = async (id) => {
-            const response = await fetch(`${apiUrl}/solicitud/buscar/${id}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': token,
-                },
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                setSolicitudData(prevSolicitudData => ({ ...prevSolicitudData, [id]: data }));
-            }
         };
 
         const fetchUsuarios = async () => {
@@ -161,7 +116,7 @@ const Agenda = () => {
 
             <div className="agenda-container">
                 <div className="agenda">
-                    <h1>AGENDA ADMIN</h1>
+                    <h1>AGENDA</h1>
                     <form onSubmit={handleSubmit}>
                         <select name="encargadoVisita" value={newAgenda.encargadoVisita} onChange={handleInputChange} required>
                             {usuarios.map((usuario) => (
@@ -169,7 +124,7 @@ const Agenda = () => {
                             ))}
                         </select>
                         {/* <input type="text" name="encargadoVisita" value={newAgenda.encargadoVisita} onChange={handleInputChange} placeholder="Encargado Visita" required /> */}
-                        <input type="text" name="solicitud" value={newAgenda.solicitud} onChange={handleInputChange} placeholder="Solicitud" required />
+                        <input type="text" name="solicitud" value={id} readOnly />
                         <input type="date" name="fecha" value={newAgenda.fecha} onChange={handleInputChange} required />
                         {/* <input type="time" name="hora" value={newAgenda.hora} onChange={handleInputChange} required /> */}
                         <select name="hora" value={newAgenda.hora} onChange={handleInputChange} required>
@@ -184,39 +139,6 @@ const Agenda = () => {
                         </select>
                         <button type="submit">Crear entrada de agenda</button>
                     </form>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Encargado Visita id</th>
-                                <th>rut encargado</th>
-                                <th>Solicitud</th>
-                                <th>Fecha</th>
-                                <th>Hora</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {agendaData.map((agenda) => (
-                                <tr key={agenda._id}>
-                                    <td>{agenda._id}</td>
-                                    <td>{userData[agenda.encargadoVisita]?._id}</td>
-                                    <td>{userData[agenda.encargadoVisita]?.rut}</td>
-                                    <td>{solicitudData[agenda.solicitud]?.estado}</td>
-                                    <td>{agenda.fecha}</td>
-                                    <td>{new Date(agenda.fecha).toLocaleDateString()}</td>
-                                    <td>{new Date(agenda.fecha).toISOString().split('T')[1].substring(0, 8)}</td>
-                                    <td>
-                                        <button onClick={() => handleDelete(agenda._id)}>Eliminar Agenda</button>
-                                    </td>
-                                    <td>
-                                        <Link to={`/agenda/actualizar/${agenda._id}`}>
-                                            <button>Actualizar Agenda</button>
-                                        </Link>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
