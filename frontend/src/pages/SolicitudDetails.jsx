@@ -28,6 +28,7 @@ const SolicitudDetails = () => {
 			<Navbar />
 			<Sidebar />
 			<SolicitudDetalle solicitudId={id}/>
+			
 			<FeedbackList solicitudId={id} onFeedbackDeleted={handleFeedbackDeleted}/>
 			<FeedbackForm solicitudId={id} onFeedbackAdded={handleFeedbackAdded} />
 			<FeedbackImageList solicitudId={id} />

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import "./Style.css";
 
 const FeedbackImageList = ({ solicitudId }) => {
     const [feedbackFiles, setFeedbackFiles] = useState([]);
@@ -61,7 +62,7 @@ const FeedbackImageList = ({ solicitudId }) => {
                         src={`${apiUrl}/feedback/file/download/${file.idSolicitud}/${file.idFeedback}/${file._id}`}
                         alt={file.name}
                     />
-                    <button onClick={() => handleDeleteImage(file.idFeedback, file._id)}>
+                    <button className="delete-img-button" onClick={() => handleDeleteImage(file.idFeedback, file._id)}>
                         Eliminar
                     </button>
                 </div>
