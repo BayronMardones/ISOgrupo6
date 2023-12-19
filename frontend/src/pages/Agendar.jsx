@@ -52,7 +52,6 @@ const Agenda = () => {
     useEffect(() => {
         const getAgenda = async () => {
             try {
-                console.log(`El token es: ${token}`);
 
                 const response = await fetch(`${apiUrl}/agenda/`, {
                     method: "GET",
@@ -89,7 +88,6 @@ const Agenda = () => {
             if (response.ok) {
                 const data = await response.json();
                 // console.log("nombre de usuario: ", data.nombre);
-                console.log("id de usuario: ", data._id);
             }
 
 

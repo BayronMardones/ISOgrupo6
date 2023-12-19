@@ -20,7 +20,6 @@ const Agenda = () => {
     useEffect(() => {
         const getAgenda = async () => {
             try {
-                console.log(`El token es: ${token}`);
 
                 const response = await fetch(`${apiUrl}/agenda/`, {
                     method: "GET",
@@ -32,11 +31,9 @@ const Agenda = () => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    console.log(data.token);
                     setAgendaData(data);
                     // Obtén los datos del usuario para cada ID de usuario único en los datos de la agenda
                     const userIds = [...new Set(data.map(agenda => agenda.encargadoVisita))];
-                    console.log("userIds: ", userIds);
                     userIds.forEach(id => fetchUserData(id));
                     const solicitudIds = [...new Set(data.map(agenda => agenda.solicitud))];
                     solicitudIds.forEach(id => fetchSolicitudData(id));
@@ -64,8 +61,6 @@ const Agenda = () => {
                 const data = await response.json();
                 // setUserData(data)
                 setUserData(prevUserData => ({ ...prevUserData, [id]: data }));
-                // console.log("nombre de usuario: ", data.nombre);
-                console.log("id de usuario: ", data._id);
             }
 
 
