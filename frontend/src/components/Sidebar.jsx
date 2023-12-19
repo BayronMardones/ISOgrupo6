@@ -11,34 +11,29 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                     {/* Contenido del Sidebar */}
                     <p className="sidebar-title">MODULOS</p>
                     <p>
-                        <NavLink to="/home" onClick={toggleSidebar}>
+                        <NavLink  className="sidebar-link" to="/home" onClick={toggleSidebar}>
                             Inicio
                         </NavLink>
                     </p>
                     <p>
-                        <NavLink to="/solicitudes" onClick={toggleSidebar}>
+                        <NavLink className="sidebar-link" to="/solicitudes" onClick={toggleSidebar}>
                             Solicitudes
                         </NavLink>
                     </p>
                     <p>
-                        <NavLink to="/agenda" onClick={toggleSidebar}>
+                        <NavLink className="sidebar-link" to="/agenda" onClick={toggleSidebar}>
                             Agenda
                         </NavLink>
                     </p>
                     <p>
-                        <NavLink to="/usuarios" onClick={toggleSidebar}>
+                        <NavLink className="sidebar-link" to="/usuarios" onClick={toggleSidebar}>
                             Usuarios
                         </NavLink>
                     </p>
                     <p>
-                        <NavLink to="/contacto" onClick={toggleSidebar}>
+                        <NavLink className="sidebar-link" to="/contacto" onClick={toggleSidebar}>
                             Contacto
                         </NavLink>
-                    </p>
-                    <p>
-                        <Link to="#" onClick={toggleSidebar}>
-                            Cerrar Sesión
-                        </Link>
                     </p>
                 </div>
             )}

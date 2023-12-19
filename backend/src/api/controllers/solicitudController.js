@@ -113,6 +113,8 @@ const actualizarSolicitudPorId = async (req, res) => {
 		const updatedData = req.body;
 		const entradaAntigua = await Solicitud.findById(solicitudId);
 
+		
+
 		const solicitudActualizada = await Solicitud.findByIdAndUpdate(
 			solicitudId,
 			updatedData,

@@ -11,7 +11,7 @@ const feedbackSchema = new Schema({
 const solicitudSchema = new Schema({
     solicitante: { type: Schema.Types.ObjectId, ref: "Usuario" },
     detalles: String,
-    estado: { type: String, enum: ["aprobado", "rechazado", "pendiente"], default: "pendiente" },
+    estado: { type: String, enum: ["aprobado", "rechazado", "pendiente", "ingresada"], default: "ingresada" },
     archivosAdjuntos: [String],
     direccion: {
         zona: String,
