@@ -17,7 +17,8 @@ const Usuarios = () => {
   const [UsuariosData, setUsariosData] = useState([]);
   const [newUser, setNewUser] = useState({ Nombre: '', Rut: '', Rol: '', Correo: '' });
   const { isSidebarOpen } = useSidebar();
-
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [isUserUpdated, setIsUserUpdated] = React.useState(false);
 
   const init = async () => {
 		const { data } = await ApiRequest().get('/usuarios')
@@ -41,6 +42,19 @@ const Usuarios = () => {
     }
   }, []);
 
+  const recargarUsuarios = async () => {
+    const response = await fetch(`${apiUrl}/usuario/`, {
+      method: "GET",
+      headers: {
+        Authorization: token, 
+      },
+    });
+
+    if (response.status === 200) {
+      const data = await response.json();
+      setUsuarios(data);
+    }
+  }
 
   const onDelete = async (_id) => {
     try {
@@ -54,8 +68,8 @@ const Usuarios = () => {
       
       if (response.ok) {
         console.log("Usuario eliminado exitosamente");
-        
-
+        recargarUsuarios();
+        alert('Usuario eliminado exitosamente');
       } else {      
         console.error("Error al eliminar usuario:", response.statusText);
       }
@@ -64,34 +78,78 @@ const Usuarios = () => {
     } 
   };
 
-  
+
+
   const handleInputChange = (event) => {
     setNewUser({ ...newUser, [event.target.name]: event.target.value });
 };
 
+React.useEffect(() => {
+  if (isUserUpdated) {
+    if (selectedUser) {
+      alert('Usuario modificado con éxito');
+    } else {
+      alert('Usuario creado con éxito');
+    }
+    setIsUserUpdated(false);
+  }
+}, [isUserUpdated]);
+
 const handleSubmit = async (event) => {
-    event.preventDefault();
-    const response = await fetch(`${apiUrl}/usuario/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': token,
-        },
-        
-        body: JSON.stringify(newUser),
-        
+  event.preventDefault();
+
+  const url = selectedUser ? `${apiUrl}/usuario/${selectedUser._id}` : `${apiUrl}/usuario/`;
+  const method = selectedUser ? 'PUT' : 'POST';
+
+  try {
+    const response = await fetch(url, {
+      method: method,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token,
+      },
+      body: JSON.stringify(newUser),
     });
-    handleDialog()
 
-    if (response.ok) {
-        const data = await response.json();
-        setUsuariosData([...UsuarioData, data]);
-        setNewUser({ Nombre: '', Rut: '', Rol: '', Correo: '' });
-        console.log(data);
-        console.log(UsuarioData);
-      }}
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+
+    // si la solicitud es exitosa, actualizar los usuarios en el estado local
+    if (selectedUser) {
+      setUsuarios(usuarios.map((usuario) => 
+        usuario._id === selectedUser._id ? data : usuario
+        
+      ));
+    } else {
+      setUsuarios(prevUsuarios => [...prevUsuarios, data]);
+      alert('Usuario creado con éxito');
+    }
+    await recargarUsuarios();
+    setIsUserUpdated(true);
+  } catch (error) {
+    console.error('Error al actualizar usuario: ', error);
+  } finally {
+    // cerrar el diálogo
+    handleDialog();
+  }
+};
 
 
+      const [dialogTitle, setDialogTitle] = useState('');
+
+        const handleEditClick = (user) => {
+        setSelectedUser(user);
+        setDialogTitle('Editar Usuario');
+        setOpenDialog(true);
+          };
+
+       const handleCreateClick = () => {
+        setSelectedUser(null);
+        setDialogTitle('Crear Usuario');
+        setOpenDialog(true);
+          };
   const handleDialog= () => {
     setOpenDialog(prev => !prev)
   }
@@ -104,7 +162,7 @@ const handleSubmit = async (event) => {
       </div>
 <Dialog fullWidth open={openDialog} onClose={handleDialog}>
         <DialogTitle>
-          Crear Usuario
+        {dialogTitle}
         </DialogTitle>
         <DialogContent onSubmit={handleSubmit}>
         <Grid container spacing={2}>
@@ -112,7 +170,7 @@ const handleSubmit = async (event) => {
         
         <TextField
           name='nombre'
-          value={newUser.nombre}
+          defaultValue={selectedUser ? selectedUser.nombre : ''}
           variant='outlined'
           size='small'
           color='primary'
@@ -134,7 +192,7 @@ const handleSubmit = async (event) => {
         <Grid item xs={12} sm={12}>
         <TextField
           name='rol'
-          value={newUser.rol}
+          defaultValue={selectedUser ? selectedUser.rol : ''}
           variant='outlined'
           size='small'
           color='primary'
@@ -145,7 +203,7 @@ const handleSubmit = async (event) => {
         <Grid item xs={12} sm={12}>
         <TextField
           name='email'
-          value={newUser.email}
+          defaultValue={selectedUser ? selectedUser.email : ''}
           variant='outlined'
           size='small'
           color='primary'
@@ -172,7 +230,7 @@ const handleSubmit = async (event) => {
         </Box>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={4}>
-            <Button onClick={handleDialog} startIcon={<AddOutlined />} variant='contained' color='primary'>Nuevo Usuario</Button>
+            <Button onClick={handleCreateClick} startIcon={<AddOutlined />} variant='contained' color='primary'>Nuevo Usuario</Button>
           </Grid>
           <Grid item xs={12} sm={8} />
           <Grid item xs={12} sm={12}>
@@ -200,9 +258,9 @@ const handleSubmit = async (event) => {
                 <TableCell>{usuario.rut} </TableCell>
                 <TableCell>{usuario.email} </TableCell>
                 <TableCell>
-                  <IconButton onclick ={() => onEdit ()}size='small' color='primary'>
+                  <IconButton onClick={() => handleEditClick(usuario)}>
                     <EditOutlined />
-                  </IconButton>
+                    </IconButton>
                   <IconButton onClick={() => onDelete(usuario._id)}>
                     <DeleteForeverOutlined />
                   </IconButton>
